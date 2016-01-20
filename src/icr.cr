@@ -4,7 +4,9 @@ require "io/memory_io"
 require "./icr/*"
 
 module Icr
-  DELIMITER = "|||"
+  # Unique value that separates program regular STDOUT from value returned by
+  # the last command.
+  DELIMITER = "|||||"
 end
 
-Icr::Console.new.start
+#Icr::Console.new.start

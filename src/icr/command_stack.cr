@@ -1,5 +1,7 @@
 module Icr
   class CommandStack
+    getter :commands
+
     def initialize
       @commands = [] of Command
     end
@@ -13,6 +15,10 @@ module Icr
       @commands << Command.new(type, command)
     end
 
+    def pop
+      @commands.pop
+    end
+
     def to_code
       require_commands = @commands.select { |cmd| cmd.type == :require }.map &.value
       regular_commands = @commands.select { |cmd| cmd.type == :regular }.map &.value
@@ -24,8 +30,9 @@ module Icr
 #{require_code}
 
 def __icr_exec__
-  #{regular_code}
+#{regular_code}
 end
+
 puts "#{DELIMITER}\#{__icr_exec__.inspect}"
       CODE
     end

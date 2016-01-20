@@ -4,11 +4,16 @@ module Icr
       @command_stack = CommandStack.new
       @last_output = ""
       @crystal_version = get_crystal_version
+
+      @tmp_file_path = Tempfile.new("icr").path
+
+      puts @tmp_file_path
     end
 
     def start
       command = ask_for_command
-      if command.strip == "exit"
+      if ["exit", "quit"].includes?(command.strip)
+        File.delete(@tmp_file_path) if File.exists?(@tmp_file_path)
         exit 0
       else
         @command_stack.push(command)
@@ -18,14 +23,12 @@ module Icr
     end
 
     def execute
-      # TODO: create secure tmp file
-      file_path = "/tmp/icr.cr"
-      File.write(file_path, gen_code)
+      File.write(@tmp_file_path, gen_code)
 
       io_out = MemoryIO.new
       io_error = MemoryIO.new
 
-      command = "crystal #{file_path}"
+      command = "crystal #{@tmp_file_path}"
       status = Process.run(command, nil, nil, false, true, nil, io_out, io_error)
 
       if status.success?
@@ -37,7 +40,7 @@ module Icr
         print new_output
         puts " => #{value}"
       else
-        # Remove invalid command from stack
+        # Remove invalid command from the stack
         @command_stack.pop
 
         # Reformat error message

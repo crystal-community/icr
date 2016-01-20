@@ -1,4 +1,5 @@
 require "readline"
+require "tempfile"
 require "io/memory_io"
 
 require "./icr/version"

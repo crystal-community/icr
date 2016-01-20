@@ -6,8 +6,6 @@ module Icr
       @crystal_version = get_crystal_version
 
       @tmp_file_path = Tempfile.new("icr").path
-
-      puts @tmp_file_path
     end
 
     def start

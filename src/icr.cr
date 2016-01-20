@@ -1,7 +1,10 @@
 require "readline"
 require "io/memory_io"
 
-require "./icr/*"
+require "./icr/version"
+require "./icr/command"
+require "./icr/command_stack"
+require "./icr/console"
 
 module Icr
   # Unique value that separates program regular STDOUT from value returned by
@@ -9,4 +12,3 @@ module Icr
   DELIMITER = "|||||"
 end
 
-#Icr::Console.new.start

@@ -18,9 +18,9 @@ module Icr
     end
 
     def execute
+      # TODO: create secure tmp file
       file_path = "/tmp/icr.cr"
       File.write(file_path, gen_code)
-
 
       io_out = MemoryIO.new
       io_error = MemoryIO.new
@@ -40,13 +40,14 @@ module Icr
         # Remove invalid command from stack
         @command_stack.pop
 
+        # Reformat error message
         lines = io_out.to_s.split("\n")[-6..-1].select { |line| line.strip != "" }
         error_message = lines[0].split(":", 3).last.strip
         code_line = lines[1]
         error_pointer = lines[2]
-        puts " #{error_message}"
-        puts " #{code_line}"
-        puts " #{error_pointer}"
+        puts "  #{error_message}"
+        puts "  #{code_line}"
+        puts "  #{error_pointer}"
       end
     end
 

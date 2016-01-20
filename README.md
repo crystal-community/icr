@@ -48,7 +48,7 @@ To understand this, please read `How does it works?` section.
 ## How does it works?
 * Every time you press <Enter> it adds new instruction, generates new crystal program and executes it.
 * The output is split into 2 parts: regular program output (e.g. output from `puts 10`) and value returned by the last command
-* The regular output is saved, and when you type new instruction, new program is generated. The saved ouput is subsctructed from the new output, and the difference is printed out. It makes an illusion that only new instructions are executed :)
+* The regular output is saved, and when you type new instruction, new program is generated. The saved ouput is subtracted from the new output, and the difference is printed out. It makes an illusion that only new instructions are executed :)
 
 ## Development
 

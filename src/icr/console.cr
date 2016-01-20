@@ -37,9 +37,17 @@ module Icr
         print new_output
         puts " => #{value}"
       else
-        # TODO: do something
-      end
+        # Remove invalid command from stack
+        @command_stack.pop
 
+        lines = io_out.to_s.split("\n")[-6..-1].select { |line| line.strip != "" }
+        error_message = lines[0].split(":", 3).last.strip
+        code_line = lines[1]
+        error_pointer = lines[2]
+        puts " #{error_message}"
+        puts " #{code_line}"
+        puts " #{error_pointer}"
+      end
     end
 
     def gen_code

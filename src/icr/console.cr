@@ -10,8 +10,7 @@ module Icr
 
     def start
       command = ask_for_command
-      if ["exit", "quit"].includes?(command.strip)
-        File.delete(@tmp_file_path) if File.exists?(@tmp_file_path)
+      if command =~ /(exit|quit)(\W|\Z)/
         exit 0
       else
         @command_stack.push(command)

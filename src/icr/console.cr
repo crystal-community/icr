@@ -40,14 +40,8 @@ module Icr
         # Remove invalid command from the stack
         @command_stack.pop
 
-        # Reformat error message
-        lines = io_out.to_s.split("\n")[-6..-1].select { |line| line.strip != "" }
-        error_message = lines[0].split(":", 3).last.strip
-        code_line = lines[1]
-        error_pointer = lines[2]
-        puts "  #{error_message}"
-        puts "  #{code_line}"
-        puts "  #{error_pointer}"
+        # Print the last message in the backktrace
+        puts io_out.to_s.split(/#{@tmp_file_path}:\d+: /).last
       end
     end
 

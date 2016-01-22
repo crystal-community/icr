@@ -21,9 +21,15 @@ exit
 ```
 
 ## Installation
+
+### OSX
+
+Run: `brew install crystal-icr`
+
+### Linux
+
 Prerequisites:
 * It requires [crystal](https://github.com/manastech/crystal) to be already installed.
-
 
 Clone the repo:
 ```
@@ -37,7 +43,7 @@ Copy `./bin/icr` in to direcotory that is listed in your `$PATH`, e.g.:
 ```
 sudo cp ./bin/icr /usr/bin/icr
 ```
-Enjoy!)
+Enjoy!
 
 ## Limitations
 * It is not possible to provide multiple lines in input

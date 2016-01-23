@@ -27,13 +27,13 @@ module Icr
       regular_code = regular_commands.join("\n")
 
       <<-CODE
-#{require_code}
+        #{require_code}
 
-def __icr_exec__
-#{regular_code}
-end
+        def __icr_exec__
+          #{regular_code}
+        end
 
-puts "#{DELIMITER}\#{__icr_exec__.inspect}"
+        puts "#{DELIMITER}\#{__icr_exec__.inspect}"
       CODE
     end
 

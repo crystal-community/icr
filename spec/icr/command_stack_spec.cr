@@ -10,13 +10,13 @@ describe Icr::CommandStack do
 
     code = stack.to_code
     code.should eq <<-CODE
-require "io"
+      require "io"
 
-def __icr_exec__
-puts 10
-end
+      def __icr_exec__
+        puts 10
+      end
 
-puts "|||||\#{__icr_exec__.inspect}"
+      puts "#{Icr::DELIMITER}\#{__icr_exec__.inspect}"
     CODE
   end
 end

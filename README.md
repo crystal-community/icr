@@ -1,4 +1,4 @@
-# ICR - Interactive Crystal
+# ICR - Interactive Crystal [![Build Status](https://travis-ci.org/greyblake/crystal-icr.svg?branch=master)](https://travis-ci.org/greyblake/crystal-icr)
 
 Interactive console for [Crystal Programming Language](http://crystal-lang.org/).
 

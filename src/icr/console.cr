@@ -10,10 +10,10 @@ module Icr
 
     def start
       command = ask_for_command
-      if command =~ /(exit|quit)(\W|\Z)/
+      if command.nil? || command.to_s =~ /(exit|quit)(\W|\Z)/
         exit 0
       else
-        @command_stack.push(command)
+        @command_stack.push(command.to_s)
       end
       execute
       start
@@ -51,7 +51,7 @@ module Icr
 
     def ask_for_command
       invitation = "icr(#{@crystal_version}) > "
-      Readline.readline(invitation, true).to_s
+      Readline.readline(invitation, true)
     end
 
     def get_crystal_version

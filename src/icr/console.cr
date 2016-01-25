@@ -10,7 +10,11 @@ module Icr
 
     def start
       command = ask_for_command
-      if command.nil? || command.to_s =~ /(exit|quit)(\W|\Z)/
+      if command.nil?
+        # Ctrl+D was pressed, print new line before exit
+        puts
+        exit 0
+      elsif command.to_s =~ /(exit|quit)(\W|\Z)/
         exit 0
       else
         @command_stack.push(command.to_s)

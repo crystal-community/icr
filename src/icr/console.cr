@@ -16,10 +16,11 @@ module Icr
         exit 0
       elsif command.to_s =~ /(exit|quit)(\W|\Z)/
         exit 0
-      else
+      elsif command.to_s.strip != ""
+        # if command is not empty, try to execute
         @command_stack.push(command.to_s)
+        execute
       end
-      execute
       start
     end
 

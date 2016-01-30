@@ -5,7 +5,7 @@ build:
 	$(CRYSTAL_BIN) build --release -o bin/icr src/icr/cli.cr $(CRFLAGS)
 clean:
 	rm -f ./bin/icr
-test:
+test: build
 	$(CRYSTAL_BIN) spec
 reinstall:
 	cp ./bin/icr $(ICR_BIN) -rf

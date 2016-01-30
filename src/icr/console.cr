@@ -17,11 +17,36 @@ module Icr
       elsif command.to_s =~ /(exit|quit)(\W|\Z)/
         exit 0
       elsif command.to_s.strip != ""
-        # if command is not empty, try to execute
-        @command_stack.push(command.to_s)
-        execute
+        execute_command(command.to_s)
       end
       start
+    end
+
+    def execute_command(command)
+      Crystal::Parser.parse(command)
+      # if command is not empty, try to execute
+      @command_stack.push(command.to_s)
+      execute
+    rescue err : Crystal::SyntaxException
+      if err.message =~ /EOF/
+        continue_command(command)
+      else
+        puts err.message
+      end
+    end
+
+    def continue_command(command)
+      p2 = Readline.readline("#{invitation}  ", true)
+      new_cmd = "#{command}\n#{p2}"
+      Crystal::Parser.parse(new_cmd)
+      @command_stack.push(new_cmd)
+      execute
+    rescue err : Crystal::SyntaxException
+      if err.message =~ /EOF/
+        continue_command(new_cmd)
+      else
+        puts err.message
+      end
     end
 
     def execute
@@ -55,7 +80,6 @@ module Icr
     end
 
     def ask_for_command
-      invitation = "icr(#{@crystal_version}) > "
       Readline.readline(invitation, true)
     end
 
@@ -64,6 +88,10 @@ module Icr
       output = `crystal --version`
       match = regex.match(output)
       match && match[0]?
+    end
+
+    def invitation
+      "icr(#{@crystal_version}) > "
     end
   end
 end

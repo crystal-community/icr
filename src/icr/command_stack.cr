@@ -7,8 +7,14 @@ module Icr
     end
 
     def push(command : String)
-      if command.strip =~ /require\s+"[\w\/]+"/
+      if command.strip =~ /^require\s/
         type = :require
+      elsif command.strip =~ /^def\s/
+        type = :method
+      elsif command.strip =~ /^class\s/
+        type = :class
+      elsif command.strip =~ /^module\s/
+        type = :module
       else
         type = :regular
       end
@@ -20,22 +26,23 @@ module Icr
     end
 
     def to_code
-      require_commands = @commands.select { |cmd| cmd.type == :require }.map &.value
-      regular_commands = @commands.select { |cmd| cmd.type == :regular }.map &.value
-
-      require_code = require_commands.join("\n")
-      regular_code = regular_commands.join("\n")
-
-      <<-CODE
-        #{require_code}
+      <<-CRYSTAL
+        #{code(:require)}
+        #{code(:module)}
+        #{code(:class)}
+        #{code(:method)}
 
         def __icr_exec__
-          #{regular_code}
+          #{code(:regular)}
         end
 
         puts "#{DELIMITER}\#{__icr_exec__.inspect}"
-      CODE
+      CRYSTAL
     end
 
+    def code(command_type)
+      cmds = @commands.select { |cmd| cmd.type == command_type }.map &.value
+      cmds.join("\n")
+    end
   end
 end

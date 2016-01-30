@@ -3,7 +3,7 @@
 Interactive console for [Crystal Programming Language](http://crystal-lang.org/).
 
 ## Usage
-It's like [irb](http://ruby-doc.org/stdlib-2.0.0/libdoc/irb/rdoc/IRB.html) but for Crystal:
+It's like irb, but for Crystal:
 
 ```
 $ icr
@@ -38,12 +38,6 @@ Copy `./bin/icr` in to direcotory that is listed in your `$PATH`, e.g.:
 sudo cp ./bin/icr /usr/bin/icr
 ```
 Enjoy!)
-
-## Limitations
-* It is not possible to provide multiple lines in input
-* It is not possible to define methods or classes.
-
-To understand this, please read `How does it works?` section.
 
 ## How does it work?
 * Every time you press `Enter` it adds new instruction, generates new crystal program and executes it.

@@ -1,9 +1,9 @@
 module Icr
   # Responsible for interaction with user.
   class Console
-    def initialize
+    def initialize(@debug = false)
       @command_stack = CommandStack.new
-      @executer = Executer.new(@command_stack)
+      @executer = Executer.new(@command_stack, debug)
       @crystal_version = get_crystal_version!
     end
 

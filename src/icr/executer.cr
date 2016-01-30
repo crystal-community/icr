@@ -2,7 +2,7 @@ module Icr
   # Build crystal source code file based on commands in CommandStack, executes it
   # as crystal program and returns result as an instance of ExecutionResult.
   class Executer
-    def initialize(@command_stack)
+    def initialize(@command_stack, @debug = false)
       # Temporary file where generated source code is written
       # NOTE: File is created in the current dir, in order to be able to
       # require local files.
@@ -19,6 +19,8 @@ module Icr
       io_error = MemoryIO.new
       command = "#{CRYSTAL_COMMAND} #{@tmp_file_path}"
       status = Process.run(command, nil, nil, false, true, nil, io_out, io_error)
+      print_source_file if @debug
+
       File.delete(@tmp_file_path)
 
       if status.success?
@@ -33,6 +35,14 @@ module Icr
         error_message = io_out.to_s.split(/#{@tmp_file_path}:\d+: /).last
         ExecutionResult.new(false, nil, nil, error_message)
       end
+    end
+
+    def print_source_file
+      puts
+      puts "========================= ICR FILE BEGIN =========================="
+      puts File.read(@tmp_file_path).strip
+      puts "========================== ICR FILE END ============================"
+      puts
     end
   end
 end

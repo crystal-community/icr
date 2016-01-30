@@ -2,6 +2,13 @@
 
 Interactive console for [Crystal Programming Language](http://crystal-lang.org/).
 
+* [Usage](#usage)
+  * [Require local files](#require-local-files)
+* [Installation](#installation)
+* [How does it work?](#how-does-it-work)
+* [Development](#development)
+* [Contributors](#contributors)
+
 ## Usage
 It's like irb, but for Crystal:
 
@@ -18,6 +25,12 @@ icr(0.10.0) > a + b + c
   a + b + c
           ^
 exit
+```
+
+### Require local files
+You can require local files by relative path (starts with `./`):
+```
+require "./src/my_cool_lib"
 ```
 
 ## Installation
@@ -38,6 +51,7 @@ Copy `./bin/icr` in to direcotory that is listed in your `$PATH`, e.g.:
 sudo cp ./bin/icr /usr/bin/icr
 ```
 Enjoy!)
+
 
 ## How does it work?
 * Every time you press `Enter` it adds new instruction, generates new crystal program and executes it.

@@ -1,6 +1,7 @@
 require "readline"
 require "tempfile"
 require "io/memory_io"
+require "secure_random"
 require "compiler/crystal/**"
 
 require "./icr/version"

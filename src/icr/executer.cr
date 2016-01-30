@@ -4,7 +4,9 @@ module Icr
   class Executer
     def initialize(@command_stack)
       # Temporary file where generated source code is written
-      @tmp_file_path = Tempfile.new("icr").path
+      # NOTE: File is created in the current dir, in order to be able to
+      # require local files.
+      @tmp_file_path = "./.icr_#{SecureRandom.urlsafe_base64}.cr"
 
       # Accumulates the output from previous executions, so we can distinguish the
       # new output from the previous.
@@ -17,6 +19,7 @@ module Icr
       io_error = MemoryIO.new
       command = "#{CRYSTAL_COMMAND} #{@tmp_file_path}"
       status = Process.run(command, nil, nil, false, true, nil, io_out, io_error)
+      File.delete(@tmp_file_path)
 
       if status.success?
         output, value = io_out.to_s.split(DELIMITER, 2)

@@ -22,31 +22,21 @@ module Icr
       elsif input.to_s =~ /(exit|quit)(\W|\Z)/
         exit 0
       elsif input.to_s.strip != ""
-        execute_command(input.to_s)
+        process_command(input.to_s)
       end
     end
 
-    private def execute_command(command : String)
+    private def process_command(command : String)
+      # Validate syntax
       Crystal::Parser.parse(command)
       @command_stack.push(command)
       execute
     rescue err : Crystal::SyntaxException
       if err.message =~ /EOF/
-        continue_command(command)
-      else
-        puts err.message
-      end
-    end
-
-    private def continue_command(command)
-      p2 = ask_for_input(1)
-      new_cmd = "#{command}\n#{p2}"
-      Crystal::Parser.parse(new_cmd)
-      @command_stack.push(new_cmd)
-      execute
-    rescue err : Crystal::SyntaxException
-      if err.message =~ /EOF/
-        continue_command(new_cmd)
+        # If syntax is invalid because of unexpected EOF, ask for a new input
+        next_command_part = ask_for_input(1)
+        new_command = "#{command}\n#{next_command_part}"
+        process_command(new_command)
       else
         puts err.message
       end
@@ -56,7 +46,11 @@ module Icr
       result = @executer.execute
       if result.success?
         print result.output
-        puts " => #{result.value}"
+        if print_execution_result?
+          puts " => #{result.value}"
+        else
+          puts " => OK"
+        end
       else
         puts result.error_output
       end
@@ -80,6 +74,10 @@ module Icr
 
     private def default_invitation
       "icr(#{@crystal_version}) > "
+    end
+
+    private def print_execution_result?
+      @command_stack.commands.last.type == :regular
     end
   end
 end

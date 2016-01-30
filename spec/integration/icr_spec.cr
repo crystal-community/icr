@@ -19,7 +19,7 @@ describe "icr command" do
     icr(input).should eq "=> 10\n => 20\n => 30"
   end
 
-  it "prints output once" do
+  it "does not repeat previous output" do
     input = <<-CRYSTAL
       puts "Saluton"
       puts "mondo!"
@@ -32,7 +32,7 @@ describe "icr command" do
       require "io/**"
       MemoryIO.new("abc").to_s
     CRYSTAL
-    icr(input).should eq "=> nil\n => \"abc\""
+    icr(input).should eq "=> OK\n => \"abc\""
   end
 
   it "allows to define multiple line methods method" do

@@ -1,6 +1,7 @@
 #### next
 * Support multiline input
 * Support definition of modules, classes and methods
+* Return just "OK", when file is required
 * Exit with proper message, if crystal is not installed
 * Proper integration tests
 * Refactor

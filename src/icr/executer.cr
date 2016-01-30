@@ -40,7 +40,7 @@ module Icr
     def print_source_file
       puts
       puts "========================= ICR FILE BEGIN =========================="
-      puts File.read(@tmp_file_path).strip
+      puts File.read(@tmp_file_path)
       puts "========================== ICR FILE END ============================"
       puts
     end

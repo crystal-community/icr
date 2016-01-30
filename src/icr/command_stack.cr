@@ -32,23 +32,25 @@ module Icr
 
     # Generate crystal source code, based on the command in the stack.
     def to_code
-      <<-CRYSTAL
+      code =
+        <<-CRYSTAL
         #{code(:require)}
         #{code(:module)}
         #{code(:class)}
         #{code(:method)}
 
         def __icr_exec__
-          #{code(:regular)}
+        #{code(:regular, 1)}
         end
 
         puts "#{DELIMITER}\#{__icr_exec__.inspect}"
-      CRYSTAL
+        CRYSTAL
+      code.strip
     end
 
-    private def code(command_type)
+    private def code(command_type, indent_level = 0)
       cmds = @commands.select { |cmd| cmd.type == command_type }.map &.value
-      cmds.join("\n")
+      cmds.map { |cmd| ("  " * indent_level) + cmd }.join("\n")
     end
   end
 end

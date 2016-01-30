@@ -1,4 +1,4 @@
-#### next
+#### v0.2.0 2016-01-30
 * Support multiline input
 * Support definition of modules, classes and methods
 * Return just "OK", when file is required

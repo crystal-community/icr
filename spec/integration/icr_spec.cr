@@ -32,7 +32,7 @@ describe "icr command" do
       require "io/**"
       MemoryIO.new("abc").to_s
     CRYSTAL
-    icr(input).should eq "=> OK\n => \"abc\""
+    icr(input).should eq "=> ok\n => \"abc\""
   end
 
   it "allows to define multiple line methods method" do

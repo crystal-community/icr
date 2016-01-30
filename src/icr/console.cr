@@ -49,7 +49,7 @@ module Icr
         if print_execution_result?
           puts " => #{result.value}"
         else
-          puts " => OK"
+          puts " => ok"
         end
       else
         puts result.error_output

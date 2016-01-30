@@ -1,3 +1,7 @@
+#### v0.2.2 2016-01-30
+* Support of --help and --version options
+* Support of debug mode (--debug option)
+
 #### v0.2.1 2016-01-30
 * Ability to require local files
 

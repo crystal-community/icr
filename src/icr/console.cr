@@ -1,31 +1,34 @@
 module Icr
+  # Responsible for interaction with user.
   class Console
     def initialize
       @command_stack = CommandStack.new
-      @last_output = ""
-      @crystal_version = get_crystal_version
-
-      @tmp_file_path = Tempfile.new("icr").path
+      @executer = Executer.new(@command_stack)
+      @crystal_version = get_crystal_version!
     end
 
     def start
-      command = ask_for_command
-      if command.nil?
+      loop do
+        input = ask_for_input
+        process_input(input)
+      end
+    end
+
+    private def process_input(input)
+      if input.nil?
         # Ctrl+D was pressed, print new line before exit
         puts
         exit 0
-      elsif command.to_s =~ /(exit|quit)(\W|\Z)/
+      elsif input.to_s =~ /(exit|quit)(\W|\Z)/
         exit 0
-      elsif command.to_s.strip != ""
-        execute_command(command.to_s)
+      elsif input.to_s.strip != ""
+        execute_command(input.to_s)
       end
-      start
     end
 
-    def execute_command(command)
+    private def execute_command(command : String)
       Crystal::Parser.parse(command)
-      # if command is not empty, try to execute
-      @command_stack.push(command.to_s)
+      @command_stack.push(command)
       execute
     rescue err : Crystal::SyntaxException
       if err.message =~ /EOF/
@@ -35,8 +38,8 @@ module Icr
       end
     end
 
-    def continue_command(command)
-      p2 = Readline.readline("#{invitation}  ", true)
+    private def continue_command(command)
+      p2 = ask_for_input(1)
       new_cmd = "#{command}\n#{p2}"
       Crystal::Parser.parse(new_cmd)
       @command_stack.push(new_cmd)
@@ -49,48 +52,33 @@ module Icr
       end
     end
 
-    def execute
-      File.write(@tmp_file_path, gen_code)
-
-      io_out = MemoryIO.new
-      io_error = MemoryIO.new
-
-      command = "crystal #{@tmp_file_path}"
-      status = Process.run(command, nil, nil, false, true, nil, io_out, io_error)
-
-      if status.success?
-        output, value = io_out.to_s.split(DELIMITER, 2)
-
-        new_output = output.sub(@last_output, "")
-        @last_output = output
-
-        print new_output
-        puts " => #{value}"
+    private def execute
+      result = @executer.execute
+      if result.success?
+        print result.output
+        puts " => #{result.value}"
       else
-        # Remove invalid command from the stack
-        @command_stack.pop
-
-        # Print the last message in the backktrace
-        puts io_out.to_s.split(/#{@tmp_file_path}:\d+: /).last
+        puts result.error_output
       end
     end
 
-    def gen_code
-      @command_stack.to_code
-    end
-
-    def ask_for_command
+    private def ask_for_input(level = 0)
+      invitation = default_invitation + "  " * level
       Readline.readline(invitation, true)
     end
 
-    def get_crystal_version
+    private def get_crystal_version!
+      if `which #{CRYSTAL_COMMAND}`.strip  == ""
+        abort("Can not find `#{CRYSTAL_COMMAND}` command. Make sure you have crystal installed.")
+      end
+
       regex = /\d+\.\d+\.\d+/
-      output = `crystal --version`
+      output = `#{CRYSTAL_COMMAND} --version`
       match = regex.match(output)
       match && match[0]?
     end
 
-    def invitation
+    private def default_invitation
       "icr(#{@crystal_version}) > "
     end
   end

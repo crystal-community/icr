@@ -1,6 +1,7 @@
 require "spec"
 require "../src/icr"
 
+# Execute icr command with the giving input and return stripped output.
 def icr(input : String)
   cmd = "#{Icr::ROOT_PATH}/bin/icr"
 

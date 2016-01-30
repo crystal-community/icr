@@ -1,4 +1,7 @@
 module Icr
+  # CommandStack - is a collection is a user's input.
+  # It distinguishes input of different types and at the end generates
+  # crystal source code, that can be executed.
   class CommandStack
     getter :commands
 
@@ -6,6 +9,7 @@ module Icr
       @commands = [] of Command
     end
 
+    # Add new command.
     def push(command : String)
       if command.strip =~ /^require\s/
         type = :require
@@ -21,10 +25,12 @@ module Icr
       @commands << Command.new(type, command)
     end
 
+    # Pop the last command. It's used in cases if the last command results into error.
     def pop
       @commands.pop
     end
 
+    # Generate crystal source code, based on the command in the stack.
     def to_code
       <<-CRYSTAL
         #{code(:require)}
@@ -40,7 +46,7 @@ module Icr
       CRYSTAL
     end
 
-    def code(command_type)
+    private def code(command_type)
       cmds = @commands.select { |cmd| cmd.type == command_type }.map &.value
       cmds.join("\n")
     end

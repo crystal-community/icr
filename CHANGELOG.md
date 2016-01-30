@@ -1,3 +1,6 @@
+#### v0.2.1 2016-01-30
+* Ability to require local files
+
 #### v0.2.0 2016-01-30
 * Support multiline input
 * Support definition of modules, classes and methods
@@ -7,7 +10,7 @@
 * Refactor
 
 #### v0.1.2 2016-01-25
-* Exist with Ctrl+D (thanks Baptiste Fontaine)
+* Exit with Ctrl+D (thanks Baptiste Fontaine)
 * Handle empty inputs
 
 #### v0.1.1 2016-01-24

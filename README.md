@@ -10,22 +10,10 @@ Interactive console for [Crystal Programming Language](http://crystal-lang.org/)
 * [Contributors](#contributors)
 
 ## Usage
+
 It's like irb, but for Crystal:
 
-```
-$ icr
-icr(0.10.0) > a = 10
- => 10
-icr(0.10.0) > b = 20
- => 20
-icr(0.10.0) > a + b
- => 30
-icr(0.10.0) > a + b + c
-  undefined local variable or method 'c' (did you mean 'a'?)
-  a + b + c
-          ^
-exit
-```
+![GIF demo](https://raw.githubusercontent.com/greyblake/crystal-icr/master/demo/demo.gif)
 
 ### Require local files
 You can require local files by relative path (starts with `./`):

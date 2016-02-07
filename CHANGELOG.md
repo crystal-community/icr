@@ -1,3 +1,6 @@
+#### v0.2.3 2016-02-07
+* Remove LLVM dependecy (fixes LLVM issue)
+
 #### v0.2.2 2016-01-30
 * Support of --help and --version options
 * Support of debug mode (--debug option)

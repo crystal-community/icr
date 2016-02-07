@@ -2,7 +2,13 @@ require "readline"
 require "tempfile"
 require "io/memory_io"
 require "secure_random"
-require "compiler/crystal/**"
+
+#require "compiler/crystal/**"
+# Require minimal to use Parser
+require "compiler/crystal/program"
+require "compiler/crystal/compiler"
+require "compiler/crystal/syntax/**"
+require "compiler/crystal/semantic/**"
 
 require "./icr/command"
 require "./icr/command_stack"

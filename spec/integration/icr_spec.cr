@@ -2,12 +2,12 @@ require "../spec_helper"
 
 describe "icr command" do
   it "returns the passed value" do
-    icr("13").should eq "=> 13"
-    icr("\"Saluton\"").should eq "=> \"Saluton\""
+    icr("13").should match /\=> 13/
+    icr("\"Saluton\"").should match /\=> "Saluton"/
   end
 
   it "does simple arithmetic" do
-    icr("2 + 2").should eq "=> 4"
+    icr("2 + 2").should match /\=> 4/
   end
 
   it "allows to define variables" do
@@ -16,7 +16,7 @@ describe "icr command" do
       b = 20
       c = a + b
     CRYSTAL
-    icr(input).should eq "=> 10\n => 20\n => 30"
+    icr(input).should match /\=> 10.*\=> 20.*\=> 30/m
   end
 
   it "does not repeat previous output" do
@@ -24,7 +24,7 @@ describe "icr command" do
       puts "Saluton"
       puts "mondo!"
     CRYSTAL
-    icr(input).should eq "Saluton\n => nil\nmondo!\n => nil"
+    icr(input).should match /Saluton.*=> nil.*mondo!.* => nil/m
   end
 
   it "allows to require files" do
@@ -32,7 +32,7 @@ describe "icr command" do
       require "io/**"
       MemoryIO.new("abc").to_s
     CRYSTAL
-    icr(input).should eq "=> ok\n => \"abc\""
+    icr(input).should match /\=> ok.*\=> "abc"/m
   end
 
   it "allows to define multiple line methods method" do
@@ -75,7 +75,7 @@ describe "icr command" do
         >>
         13
       CRYSTAL
-      icr(input).should eq "unexpected token: >>\n => 13"
+      icr(input).should match /unexpected token: >>.*=> 13/m
     end
 
     it "prints runtime error without crashing" do

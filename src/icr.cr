@@ -3,7 +3,6 @@ require "tempfile"
 require "io/memory_io"
 require "secure_random"
 
-#require "compiler/crystal/**"
 # Require minimal to use Parser
 require "compiler/crystal/program"
 require "compiler/crystal/compiler"

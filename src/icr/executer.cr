@@ -31,9 +31,12 @@ module Icr
       else
         # Remove invalid command from the stack
         @command_stack.pop
-        # Get the last message in the backktrace (Crystal writes error message to STDOUT)
-        error_message = io_out.to_s.split(/#{@tmp_file_path}:\d+: /).last
-        ExecutionResult.new(false, nil, nil, error_message)
+        error_message =
+          # Get the last message in the backktrace (in order not to show tmp file internals)
+          io_out.to_s.split(/#{@tmp_file_path}:\d+: /).last.strip +
+          "\n" +
+          io_error.to_s.strip
+        ExecutionResult.new(false, nil, nil, error_message.strip)
       end
     end
 

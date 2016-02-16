@@ -78,7 +78,7 @@ describe "icr command" do
       icr(input).should match /unexpected token: >>.*=> 13/m
     end
 
-    it "prints runtime error without crashing" do
+    it "prints compilation error without crashing" do
       input = <<-CRYSTAL
         var
         13
@@ -86,6 +86,12 @@ describe "icr command" do
       output = icr(input)
       output.should match /undefined local variable or method 'var'/
       output.should match /13/
+    end
+
+    it "prints runtime error without crashing" do
+      input = "\"5a\".to_i"
+      output = icr(input)
+      output.should match /invalid Int32: 5a \(ArgumentError\)/
     end
   end
 

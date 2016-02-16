@@ -1,5 +1,8 @@
+#### v0.2.4 2016-02-17
+* (fix) display stderr output
+
 #### v0.2.3 2016-02-07
-* Remove LLVM dependecy (fixes LLVM issue)
+* Remove LLVM dependency (fixes LLVM issue)
 
 #### v0.2.2 2016-01-30
 * Support of --help and --version options

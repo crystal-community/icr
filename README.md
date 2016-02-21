@@ -30,14 +30,20 @@ Clone the repo:
 ```
 git clone https://github.com/greyblake/crystal-icr.git
 ```
-Build
+Switch to repo-directory:
+```
+cd crystal-icr
+```
+Build:
 ```
 make
 ```
-Copy `./bin/icr` in to direcotory that is listed in your `$PATH`, e.g.:
+And create symlink of `./bin/icr` in to direcotory that is listed in your `$PATH`, e.g.:
 ```
-sudo cp ./bin/icr /usr/bin/icr
+sudo ln -s $(realpath ./bin/icr) /usr/bin/icr
 ```
+_(it's necessary only for the first time)_
+
 Enjoy!)
 
 

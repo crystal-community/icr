@@ -99,17 +99,17 @@ describe "icr command" do
     it "allows to quit with 'exit' command" do
       input = <<-CRYSTAL
         exit
-        13
+        1313
       CRYSTAL
-      icr(input).should_not match /13/
+      icr(input).should_not match /1313/
     end
 
     it "allows to quit with 'quit' command" do
       input = <<-CRYSTAL
         quit
-        13
+        1313
       CRYSTAL
-      icr(input).should_not match /13/
+      icr(input).should_not match /1313/
     end
   end
 end

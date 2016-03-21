@@ -18,9 +18,9 @@ module Icr
       if input.nil?
         # Ctrl+D was pressed, print new line before exit
         puts
-        exit 0
+        __exit__
       elsif input.to_s =~ /(exit|quit)(\W|\Z)/
-        exit 0
+        __exit__
       elsif input.to_s.strip != ""
         process_command(input.to_s)
       end
@@ -78,6 +78,11 @@ module Icr
 
     private def print_execution_result?
       @command_stack.commands.last.type == :regular
+    end
+
+    private def __exit__
+      @executer.cleanup!
+      exit 0
     end
   end
 end

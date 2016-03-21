@@ -6,7 +6,7 @@ module Icr
       # Temporary file where generated source code is written
       # NOTE: File is created in the current dir, in order to be able to
       # require local files.
-      @tmp_file_path = "./.icr_#{SecureRandom.urlsafe_base64}.cr"
+      @tmp_file_path = File.join(Dir.current, ".icr_#{SecureRandom.urlsafe_base64}.cr")
 
       # Accumulates the output from previous executions, so we can distinguish the
       # new output from the previous.
@@ -46,6 +46,30 @@ module Icr
       puts File.read(@tmp_file_path)
       puts "========================== ICR FILE END ============================"
       puts
+    end
+
+    # Remove .crystal directory and internals created by +crystal+ command.
+    def cleanup!
+      dot_crystal_dir = File.join(Dir.current, ".crystal")
+      file_tmp_dir = File.join(dot_crystal_dir, @tmp_file_path)
+
+      # Remove tmp directory of the tmp file
+      system("rm -rf \"#{file_tmp_dir}\"")
+
+      path = File.expand_path("..", file_tmp_dir)
+
+      # Remove empty directories, including ".crystal"
+      while empty_dir?(path)
+        Dir.rmdir(path)
+        break if path == dot_crystal_dir
+        path = File.expand_path("..", path)
+      end
+    end
+
+    private def empty_dir?(path)
+      return false unless File.directory?(path)
+      entries = Dir.entries(path) - [".", ".."]
+      entries.empty?
     end
   end
 end

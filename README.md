@@ -5,6 +5,7 @@ Interactive console for [Crystal Programming Language](http://crystal-lang.org/)
 * [Usage](#usage)
   * [Require local files](#require-local-files)
 * [Installation](#installation)
+  * [Arch Linux](#arch-linux)
 * [How does it work?](#how-does-it-work)
 * [Development](#development)
 * [Contributors](#contributors)
@@ -46,6 +47,11 @@ sudo ln -s $(realpath ./bin/icr) /usr/bin/icr
 _(it's necessary only for the first time)_
 
 Enjoy!)
+
+
+### Arch Linux
+
+Arch Linux users can install ICR [from AUR](https://aur.archlinux.org/packages/crystal-icr/).
 
 
 ## How does it work?

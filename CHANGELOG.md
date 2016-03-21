@@ -1,6 +1,9 @@
+#### v0.2.6 2016-03-22
+* (fix) allow assignment with operator (issue 12)
+
 #### v0.2.5 2016-03-21
-* (fix) remove .crystal tmp dir
-* Add LGPL license
+* (fix) remove .crystal tmp dir (issue 14)
+* Add LGPL license (issue  13)
 
 #### v0.2.4 2016-02-17
 * (fix) display stderr output

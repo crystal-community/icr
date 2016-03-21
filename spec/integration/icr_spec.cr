@@ -112,4 +112,14 @@ describe "icr command" do
       icr(input).should_not match /1313/
     end
   end
+
+  describe "assignment with operator" do
+    it "allows to execute *= operation" do
+      input = <<-CRYSTAL
+        a = 123
+        a *= 2
+      CRYSTAL
+      icr(input).should match /246/
+    end
+  end
 end

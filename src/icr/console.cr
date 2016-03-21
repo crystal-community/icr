@@ -27,18 +27,29 @@ module Icr
     end
 
     private def process_command(command : String)
-      # Validate syntax
-      Crystal::Parser.parse(command)
-      @command_stack.push(command)
-      execute
-    rescue err : Crystal::SyntaxException
-      if err.message =~ /EOF/
+      result = check_syntax(command)
+
+      case result.status
+      when :ok
+        @command_stack.push(command)
+        execute
+      when :unexpected_eof
         # If syntax is invalid because of unexpected EOF, ask for a new input
         next_command_part = ask_for_input(1)
         new_command = "#{command}\n#{next_command_part}"
         process_command(new_command)
+      when :error
+        # Give it the second try, validate the command in scope of entire file
+        @command_stack.push(command)
+        entire_file_result = check_syntax(@command_stack.to_code)
+        if entire_file_result.status == :ok
+          execute
+        else
+          @command_stack.pop
+          puts result.error_message
+        end
       else
-        puts err.message
+        raise("Unknown SyntaxCheckResult status: #{result.status}")
       end
     end
 
@@ -83,6 +94,17 @@ module Icr
     private def __exit__
       @executer.cleanup!
       exit 0
+    end
+
+    private def check_syntax(code)
+      Crystal::Parser.parse(code)
+      SyntaxCheckResult.new(:ok)
+    rescue err : Crystal::SyntaxException
+      if err.message =~ /EOF/
+        SyntaxCheckResult.new(:unexpected_eof)
+      else
+        SyntaxCheckResult.new(:error, err.message.to_s)
+      end
     end
   end
 end

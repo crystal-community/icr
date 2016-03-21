@@ -16,7 +16,7 @@ require "./icr/execution_result"
 require "./icr/console"
 
 module Icr
-  VERSION = "0.2.4"
+  VERSION = "0.2.5"
   AUTHOR = "Potapov Sergey"
   HOMEPAGE = "https://github.com/greyblake/crystal-icr"
 

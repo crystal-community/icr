@@ -1,3 +1,10 @@
+#### v0.2.5 2016-03-21
+* (fix) remove .crystal tmp dir
+* Add LGPL license
+
+#### v0.2.4 2016-02-17
+* (fix) display stderr output
+
 #### v0.2.4 2016-02-17
 * (fix) display stderr output
 

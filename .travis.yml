@@ -7,3 +7,5 @@ matrix:
     - crystal: nightly
 script:
   - make test
+before_install:
+  - sudo apt-get llvm-3.5-dev

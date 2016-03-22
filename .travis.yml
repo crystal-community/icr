@@ -4,4 +4,4 @@ crystal:
 script:
   - make test
 before_install:
-  - sudo apt-get install llvm-3.5-dev
+  - sudo apt-get install llvm-dev

@@ -1,7 +1,13 @@
-language: crystal
-crystal:
-  - latest
+language: c
+sudo: required
+dist: trusty
+install:
+  - |
+    curl http://dist.crystal-lang.org/apt/setup.sh | sudo bash
+    sudo apt-get install -qy crystal build-essential llvm-3.6-dev libreadline-dev zlib1g-dev libedit-dev libssl-dev git
+    export LD_LIBRARY_PATH=/opt/crystal/embedded/lib/ LIBRARY_PATH=/opt/crystal/embedded/lib/
+    git clone https://github.com/manastech/crystal
+    (cd crystal && make)
+    export PATH="$(readlink -f crystal/bin):$PATH"
 script:
   - make test
-before_install:
-  - sudo apt-get install llvm-dev

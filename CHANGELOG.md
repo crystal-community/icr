@@ -1,3 +1,6 @@
+#### v0.2.7 2016-03-23
+* Support of Crystal 0.14
+
 #### v0.2.6 2016-03-22
 * (fix) allow assignment with operator (issue 12)
 

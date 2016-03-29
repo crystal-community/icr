@@ -111,6 +111,15 @@ describe "icr command" do
       CRYSTAL
       icr(input).should_not match /1313/
     end
+
+    it "do not exit if 'exit' or 'quit' is part of other code" do
+      input = <<-CRYSTAL
+        puts "I do not want to exit"
+        puts "nor quit"
+      CRYSTAL
+      icr(input).should match /I do not want to exit/
+      icr(input).should match /nor quit/
+    end
   end
 
   describe "assignment with operator" do

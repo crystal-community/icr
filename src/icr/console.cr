@@ -19,7 +19,7 @@ module Icr
         # Ctrl+D was pressed, print new line before exit
         puts
         __exit__
-      elsif input.to_s =~ /(exit|quit)(\W|\Z)/
+      elsif %w(exit quit).includes?(input.to_s.strip)
         __exit__
       elsif input.to_s.strip != ""
         process_command(input.to_s)

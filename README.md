@@ -24,7 +24,7 @@ require "./src/my_cool_lib"
 
 ## Installation
 Prerequisites:
-* It requires [crystal](https://github.com/manastech/crystal) to be already installed.
+* The latest version of crystal (0.15.0).
 * Readline (for Debian/Ubuntu install `libreadline6-dev` package).
 
 

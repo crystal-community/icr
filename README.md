@@ -26,7 +26,7 @@ require "./src/my_cool_lib"
 Prerequisites:
 * The latest version of crystal (0.15.0).
 * Readline (for Debian/Ubuntu install `libreadline6-dev` package).
-
+* LLVM development files.
 
 Clone the repo:
 ```

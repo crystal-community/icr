@@ -1,9 +1,7 @@
-language: generic
+language: crystal
 sudo: required
 dist: trusty
 install:
-  - |
-    curl http://dist.crystal-lang.org/apt/setup.sh | sudo bash
-    sudo apt-get install -qy crystal llvm-3.5-dev libreadline-dev build-essential zlib1g-dev libedit-dev libssl-dev
+  - sudo apt-get install -qy llvm-3.5-dev libreadline-dev build-essential zlib1g-dev libedit-dev libssl-dev
 script:
   - make test

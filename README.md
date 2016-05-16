@@ -69,3 +69,4 @@ make test
 ## Contributors
 
 - [greyblake](https://github.com/greyblake) Potapov Sergey - creator, maintainer
+- [BlaXpirit](https://github.com/BlaXpirit) Oleh Prypin - fixes for Crystal 0.16

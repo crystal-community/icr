@@ -1,3 +1,6 @@
+#### v0.2.8 2016-05-23
+* Support of Crystal 0.16 (BlaXpirit)
+
 #### v0.2.7 2016-03-23
 * Support of Crystal 0.14
 

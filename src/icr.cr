@@ -3,24 +3,7 @@ require "tempfile"
 require "io/memory_io"
 require "secure_random"
 
-# Require minimal to use Parser
-#
-require "compiler/crystal/codegen/**"
-require "compiler/crystal/core_ext/**"
-require "compiler/crystal/syntax/**"
-require "compiler/crystal/semantic/**"
-require "compiler/crystal/macros/**"
-#require "compiler/crystal/tools/**"
-require "compiler/crystal/crystal_path"
-require "compiler/crystal/program"
-require "compiler/crystal/compiler"
-require "compiler/crystal/command"
-#require "compiler/crystal/config"
-#require "compiler/crystal/exception"
-#require "compiler/crystal/primitives"
-#require "compiler/crystal/types"
-
-#require "compiler/crystal/**"
+require "compiler/crystal/syntax"
 
 require "./icr/command"
 require "./icr/command_stack"

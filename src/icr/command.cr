@@ -6,7 +6,7 @@ module Icr
   class Command
     getter :type, :value
 
-    def initialize(@type, @value)
+    def initialize(@type : Symbol, @value : String)
     end
   end
 end

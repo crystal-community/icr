@@ -8,8 +8,8 @@ clean:
 	rm -f ./bin/icr
 test: build
 	$(CRYSTAL_BIN) spec
-install:
+install: build
 	mkdir -p $(PREFIX)/bin
 	cp ./bin/icr $(PREFIX)/bin
-reinstall:
+reinstall: build
 	cp ./bin/icr $(ICR_BIN) -rf

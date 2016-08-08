@@ -6,7 +6,8 @@ module Icr
       # Temporary file where generated source code is written
       # NOTE: File is created in the current dir, in order to be able to
       # require local files.
-      @tmp_file_path = File.join(Dir.current, ".icr_#{SecureRandom.urlsafe_base64}.cr")
+      @tmp_file_name = ".icr_#{SecureRandom.urlsafe_base64}.cr"
+      @tmp_file_path = File.join(Dir.current, @tmp_file_name)
 
       # Accumulates the output from previous executions, so we can distinguish the
       # new output from the previous.
@@ -33,7 +34,7 @@ module Icr
         @command_stack.pop
         error_message =
           # Get the last message in the backktrace (in order not to show tmp file internals)
-          io_out.to_s.split(/#{@tmp_file_path}:\d+: /).last.strip +
+          io_out.to_s.split(/#{@tmp_file_name}:\d+: /).last.strip +
           "\n" +
           io_error.to_s.strip
         ExecutionResult.new(false, nil, nil, error_message.strip)

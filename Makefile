@@ -3,7 +3,7 @@ ICR_BIN ?= $(shell which icr)
 PREFIX ?= /usr/local
 
 build:
-	$(CRYSTAL_BIN) compile --release -o bin/icr src/icr/cli.cr $(CRFLAGS)
+	$(CRYSTAL_BIN) build --release -o bin/icr src/icr/cli.cr $(CRFLAGS)
 clean:
 	rm -f ./bin/icr
 test: build

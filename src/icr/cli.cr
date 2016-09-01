@@ -2,6 +2,7 @@ require "option_parser"
 require "../icr"
 
 is_debug = false
+code = ""
 
 def print_stamp
   puts "Author: #{Icr::AUTHOR}"
@@ -27,6 +28,10 @@ OptionParser.parse! do |parser|
   parser.on("-d", "--debug", "Run icr in debug mode") do
     is_debug = true
   end
+
+  parser.on("-r FILE", "--require=FILE", "auto require FILE") do |filename|
+    code = "require \"#{filename}\""
+  end
 end
 
-Icr::Console.new(is_debug).start
+Icr::Console.new(is_debug).start(code)

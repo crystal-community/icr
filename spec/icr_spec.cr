@@ -17,14 +17,14 @@ describe Icr do
   describe "using the -r option" do
     it "requires the colorize lib" do
       input = <<-CODE
-      "hello".responds_to?(:colorize)
+        "hello".responds_to?(:colorize)
       CODE
       icr(input, "-r colorize").should match /true/
     end
 
     it "fails when colorize is not required first" do
       input = <<-CODE
-      "hello".responds_to?(:colorize)
+        "hello".responds_to?(:colorize)
       CODE
       icr(input).should match /false/
     end

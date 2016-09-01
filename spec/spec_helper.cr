@@ -2,10 +2,14 @@ require "spec"
 require "../src/icr"
 
 # Execute icr command with the giving input and return stripped output.
+def icr(input : String)
+  icr(input, "")
+end
+
 # Optionally, you can pass flags to the icr command 
-def icr(input : String, arg : String? = nil)
+def icr(input : String, arg : String)
   cmd = ["#{Icr::ROOT_PATH}/bin/icr"]
-  cmd.push(arg) unless arg.nil?
+  cmd.push(arg) unless arg.empty?
 
   io_in = MemoryIO.new(input)
   io_out = MemoryIO.new

@@ -9,6 +9,10 @@ module Icr
       @crystal_version = get_crystal_version!
     end
 
+    def start
+      start("")
+    end
+
     def start(code : String)
       process_input(code) unless code.empty?
       loop do

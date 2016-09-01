@@ -7,9 +7,9 @@ def icr(input : String)
 end
 
 # Optionally, you can pass flags to the icr command 
-def icr(input : String, arg : String)
+def icr(input : String, *args)
   cmd = ["#{Icr::ROOT_PATH}/bin/icr"]
-  cmd.push(arg) unless arg.empty?
+  cmd.push(*args) unless args.empty?
 
   io_in = MemoryIO.new(input)
   io_out = MemoryIO.new

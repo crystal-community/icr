@@ -22,13 +22,12 @@ describe "icr command" do
         icr(input, "-r colorize").should match /true/
       end
 
-      # This spec fails even though the code still works. Still investigating the cause
-      #it "requires multiple libs colorize and http" do
-      #  input = <<-CODE
-      #    "typeof(HTTP).name.responds_to?(:colorize)"
-      #  CODE
-      #  icr(input, "-r http", "-r colorize").should match /true/
-      #end
+      it "requires multiple libs colorize and http" do
+        input = <<-CODE
+          typeof(HTTP).name.responds_to?(:colorize)
+        CODE
+        icr(input, "-r http", "-r colorize").should match /true/
+      end
 
       it "fails when colorize is not required first" do
         input = <<-CODE

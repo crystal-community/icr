@@ -69,6 +69,18 @@ describe "icr command" do
     icr(input).should match /\=> 169/
   end
 
+  it "allows to define records" do
+    input = <<-CRYSTAL
+      record Person, first_name : String, last_name : String do
+        def full_name
+          first_name + " " + last_name
+        end
+      end
+      Person.new("Mike", "Nog").full_name
+    CRYSTAL
+    icr(input).should match /Mike Nog/
+  end
+
   describe "errors" do
     it "prints syntax error without crashing" do
       input = <<-CRYSTAL

@@ -1,3 +1,7 @@
+#### v0.2.9 2016-09-07
+* Support of records (puppetpies)
+* Support of Crystal 0.19
+
 #### v0.2.8 2016-05-23
 * Support of Crystal 0.16 (BlaXpirit)
 

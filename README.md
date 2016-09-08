@@ -22,6 +22,12 @@ You can require local files by relative path (starts with `./`):
 require "./src/my_cool_lib"
 ```
 
+Libs can also be required from the cli
+
+```
+$ icr -r colorize -r ./src/my_cool_lib
+```
+
 ## Installation
 Prerequisites:
 * The latest version of crystal (0.18.0).

@@ -80,6 +80,24 @@ describe "icr command" do
     CRYSTAL
     icr(input).should match /Mike Nog/
   end
+  
+  it "allows to define struct" do
+    input = <<-CRYSTAL
+      struct N
+        property name : String
+        @name : String 
+        def initialize
+          @name = "Default" 
+        end 
+        def name : String
+        end
+        def name=(@name : String)
+        end
+      end
+    N.new.name = "Struct"
+    CRYSTAL
+    icr(input).should match /Struct/
+  end
 
   describe "errors" do
     it "prints syntax error without crashing" do

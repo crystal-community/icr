@@ -21,6 +21,8 @@ module Icr
 	type = :module
       elsif command.strip =~ /^record\s/
         type = :record
+      elsif command.strip =~ /^struct\s/
+        type = :struct
       else
         type = :regular
       end
@@ -41,6 +43,7 @@ module Icr
         #{code(:class)}
         #{code(:method)}
         #{code(:record)}
+        #{code(:struct)}
 
         def __icr_exec__
         #{code(:regular, 1)}

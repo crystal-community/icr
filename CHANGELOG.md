@@ -1,3 +1,6 @@
+#### v0.2.10 2016-09-09
+* Support of -r option (jwoertink)
+
 #### v0.2.9 2016-09-07
 * Support of records (puppetpies)
 * Support of Crystal 0.19

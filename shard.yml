@@ -1,7 +1,10 @@
 name: icr
-version: 0.1.0
+version: 0.2.10
 
 authors:
   - Potapov Sergey <blake131313@gmail.com>
 
 license: MIT
+
+scripts:
+  postinstall: make install

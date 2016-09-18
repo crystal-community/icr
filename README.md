@@ -52,7 +52,20 @@ sudo ln -s $(realpath ./bin/icr) /usr/bin/icr
 ```
 _(it's necessary only for the first time)_
 
-Enjoy!)
+### As a shard dependency
+
+If you would like to include icr as a dependency, you can add it to your `shard.yml`
+
+```yml
+dependencies:
+  icr:
+    github: greyblake/crystal-icr
+    branch: master
+```
+
+Then just run `shards install` from your project!
+
+Enjoy!
 
 
 ### Arch Linux

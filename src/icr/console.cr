@@ -40,8 +40,9 @@ module Icr
       when :ok
         @command_stack.push(command)
         execute
-      when :unexpected_eof
-        # If syntax is invalid because of unexpected EOF, ask for a new input
+      when :unexpected_eof, :unterminated_literal
+        # If syntax is invalid because of unexpected EOF, or
+        # we are still waiting for a closing bracket, keep asking for input
         next_command_part = ask_for_input(1)
         new_command = "#{command}\n#{next_command_part}"
         process_command(new_command)
@@ -107,8 +108,11 @@ module Icr
       Crystal::Parser.parse(code)
       SyntaxCheckResult.new(:ok)
     rescue err : Crystal::SyntaxException
-      if err.message =~ /EOF/
+      case err.message.to_s
+      when .includes?("EOF")
         SyntaxCheckResult.new(:unexpected_eof)
+      when .includes?("unterminated")
+        SyntaxCheckResult.new(:unterminated_literal)
       else
         SyntaxCheckResult.new(:error, err.message.to_s)
       end

@@ -1,3 +1,6 @@
+#### v0.2.11 2016-11-10
+* Handle multi line hash (jwoertink)
+
 #### v0.2.10 2016-09-09
 * Support of -r option (jwoertink)
 

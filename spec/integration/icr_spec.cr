@@ -117,23 +117,36 @@ describe "icr command" do
     CRYSTAL
     icr(input).should match /Mike Nog/
   end
-  
+
   it "allows to define struct" do
     input = <<-CRYSTAL
       struct N
         property name : String
-        @name : String 
+        @name : String
         def initialize
-          @name = "Default" 
-        end 
+          @name = "Default"
+        end
         def name : String
         end
         def name=(@name : String)
         end
       end
-    N.new.name = "Struct"
+      N.new.name = "Struct"
     CRYSTAL
     icr(input).should match /Struct/
+  end
+
+  it "allows to define multi line hash" do
+    input = <<-CRYSTAL
+      module Screen
+        TILES = {
+          0 => {:white, nil},
+          2 => {:black, :white}
+        }
+      end
+      Screen::TILES[2]
+    CRYSTAL
+    icr(input).should match /{:black, :white}/
   end
 
   describe "errors" do

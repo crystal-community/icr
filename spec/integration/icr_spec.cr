@@ -211,4 +211,19 @@ describe "icr command" do
       icr(input).should match /246/
     end
   end
+
+  describe "using an alias" do
+    it "aliases Mod to M" do
+      input = <<-CRYSTAL
+      module Mod
+        def self.exe
+          1 + 1
+        end
+      end
+      alias M = Mod
+      M.exe
+      CRYSTAL
+      icr(input).should match /2/
+    end
+  end
 end

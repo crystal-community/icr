@@ -1,3 +1,6 @@
+#### v0.2.12 2016-11-16
+* Support alias (jwoertink)
+
 #### v0.2.11 2016-11-10
 * Handle multi line hash (jwoertink)
 

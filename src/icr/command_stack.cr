@@ -18,7 +18,7 @@ module Icr
       elsif command.strip =~ /^class\s/
         type = :class
       elsif command.strip =~ /^module\s/
-	      type = :module
+        type = :module
       elsif command.strip =~ /^record\s/
         type = :record
       elsif command.strip =~ /^struct\s/

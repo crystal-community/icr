@@ -1,7 +1,7 @@
 require "spec"
 require "../src/icr"
 
-# Execute icr command with the giving input and return stripped output.
+# Execute icr command with the given input and return stripped output.
 def icr(input : String)
   icr(input, "")
 end

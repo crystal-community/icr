@@ -1,6 +1,6 @@
 require "readline"
 require "tempfile"
-require "io/memory_io"
+require "io/memory"
 require "secure_random"
 
 require "compiler/crystal/syntax"

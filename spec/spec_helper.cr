@@ -11,9 +11,9 @@ def icr(input : String, *args)
   cmd = ["#{Icr::ROOT_PATH}/bin/icr"]
   cmd.push(*args) unless args.empty?
 
-  io_in = MemoryIO.new(input)
-  io_out = MemoryIO.new
-  io_error = MemoryIO.new
+  io_in = IO::Memory.new(input)
+  io_out = IO::Memory.new
+  io_error = IO::Memory.new
 
   Process.run(cmd.join(" "), nil, nil, false, true, io_in, io_out, io_error)
   io_out.to_s.strip

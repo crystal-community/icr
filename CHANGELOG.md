@@ -1,3 +1,6 @@
+#### v0.2.13 2016-11-16
+* Update for Crystal 0.20 compatibility (jwoertink)
+
 #### v0.2.12 2016-11-16
 * Support alias (jwoertink)
 

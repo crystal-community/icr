@@ -30,7 +30,7 @@ $ icr -r colorize -r ./src/my_cool_lib
 
 ## Installation
 Prerequisites:
-* The latest version of crystal (0.18.0).
+* The latest version of crystal (0.20.0).
 * Readline (for Debian/Ubuntu install `libreadline6-dev` package).
 * LLVM development files.
 

@@ -226,4 +226,15 @@ describe "icr command" do
       icr(input).should match /2/
     end
   end
+
+  it "allows redefining a variable in a block" do
+    input = <<-CRYSTAL
+    i = 0
+    10.times do |a|
+      i = i + a
+    end
+    i
+    CRYSTAL
+    icr(input).should match /45/
+  end
 end

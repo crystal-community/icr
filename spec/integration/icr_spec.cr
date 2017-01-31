@@ -67,7 +67,7 @@ describe "icr command" do
   it "allows to require files" do
     input = <<-CRYSTAL
       require "io/**"
-      MemoryIO.new("abc").to_s
+      IO::Memory.new("abc").to_s
     CRYSTAL
     icr(input).should match /\=> ok.*\=> "abc"/m
   end

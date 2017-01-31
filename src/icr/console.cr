@@ -35,7 +35,10 @@ module Icr
 
     private def process_command(command : String)
       result = check_syntax(command)
+      process_result(result, command)
+    end
 
+    private def process_result(result : SyntaxCheckResult, command : String)
       case result.status
       when :ok
         @command_stack.push(command)
@@ -50,8 +53,12 @@ module Icr
         # Give it the second try, validate the command in scope of entire file
         @command_stack.push(command)
         entire_file_result = check_syntax(@command_stack.to_code)
-        if entire_file_result.status == :ok
+        case entire_file_result.status
+        when :ok
           execute
+        when :unexpected_eof
+          @command_stack.pop
+          process_result(entire_file_result, command)
         else
           @command_stack.pop
           puts result.error_message

@@ -13,7 +13,7 @@ require "./icr/syntax_check_result"
 require "./icr/console"
 
 module Icr
-  VERSION = "0.2.13"
+  VERSION = "0.2.14"
   AUTHOR = "Potapov Sergey"
   HOMEPAGE = "https://github.com/greyblake/crystal-icr"
 

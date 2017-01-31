@@ -1,3 +1,6 @@
+#### v0.2.14 2017-01-31
+* (fix) behavioral difference when reassigning variable in multi-line blocks (jwoertink)
+
 #### v0.2.13 2016-11-25
 * Update for Crystal 0.20 compatibility (jwoertink)
 

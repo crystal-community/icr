@@ -22,4 +22,8 @@ module Icr
   DELIMITER = "|||YIH22hSkVQN|||"
   CRYSTAL_COMMAND = "crystal"
   ROOT_PATH = File.expand_path("../..", __FILE__)
+
+  def self.handle_trap
+    puts "in trap"
+  end
 end

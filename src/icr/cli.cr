@@ -1,5 +1,11 @@
 require "option_parser"
 require "../icr"
+STDOUT.sync = true
+
+Signal::INT.trap {
+  Icr.handle_trap
+}
+
 
 is_debug = false
 libs = [] of String

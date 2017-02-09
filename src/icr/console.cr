@@ -14,6 +14,7 @@ module Icr
     end
 
     def start(code : String)
+      enable_signal_trap
       process_input(code) unless code.empty?
       loop do
         input = ask_for_input
@@ -21,11 +22,20 @@ module Icr
       end
     end
 
+    private def enable_signal_trap
+      STDOUT.sync = true
+      Signal::INT.trap {
+        puts "\n\n#{@command_stack.to_code}\n\n"
+      }
+    end
+
     private def process_input(input)
       if input.nil?
-        # Ctrl+D was pressed, print new line before exit
+        puts "no input"
+        # Need to determine between ^C and ^D
+        # if ^D then exit
+        # if ^C then reset to clean status
         puts
-        __exit__
       elsif %w(exit quit).includes?(input.to_s.strip)
         __exit__
       elsif input.to_s.strip != ""

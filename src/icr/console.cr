@@ -23,19 +23,17 @@ module Icr
     end
 
     private def enable_signal_trap
-      STDOUT.sync = true
       Signal::INT.trap {
-        puts "\n\n#{@command_stack.to_code}\n\n"
+        puts
+        # reset @command_stack to last known clean state
       }
     end
 
     private def process_input(input)
       if input.nil?
-        puts "no input"
-        # Need to determine between ^C and ^D
-        # if ^D then exit
-        # if ^C then reset to clean status
+        # ^D was called. Exit
         puts
+        __exit__
       elsif %w(exit quit).includes?(input.to_s.strip)
         __exit__
       elsif input.to_s.strip != ""
@@ -94,7 +92,10 @@ module Icr
 
     private def ask_for_input(level = 0)
       invitation = default_invitation + "  " * level
-      Readline.readline(invitation, true)
+      # This seems to block the event loop causing delays in trapping the signal
+      #Readline.readline(invitation, true)
+      print invitation
+      gets
     end
 
     private def get_crystal_version!

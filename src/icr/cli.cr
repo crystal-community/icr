@@ -1,6 +1,10 @@
 require "option_parser"
 require "../icr"
 
+# Not 100% sure if we need this just yet
+STDIN.sync = true
+STDOUT.sync = true
+
 is_debug = false
 libs = [] of String
 

@@ -24,8 +24,8 @@ module Icr
 
     private def enable_signal_trap
       Signal::INT.trap {
-        puts
-        # reset @command_stack to last known clean state
+        @command_stack.reset!
+        puts  
       }
     end
 
@@ -49,7 +49,7 @@ module Icr
     private def process_result(result : SyntaxCheckResult, command : String)
       case result.status
       when :ok
-        @command_stack.push(command)
+        @command_stack.push(command + " ##{Icr::DELIMITER}ok")
         execute
       when :unexpected_eof, :unterminated_literal
         # If syntax is invalid because of unexpected EOF, or
@@ -59,7 +59,7 @@ module Icr
         process_command(new_command)
       when :error
         # Give it the second try, validate the command in scope of entire file
-        @command_stack.push(command)
+        @command_stack.push(command + " ##{Icr::DELIMITER}err")
         entire_file_result = check_syntax(@command_stack.to_code)
         case entire_file_result.status
         when :ok

@@ -92,10 +92,7 @@ module Icr
 
     private def ask_for_input(level = 0)
       invitation = default_invitation + "  " * level
-      # This seems to block the event loop causing delays in trapping the signal
-      #Readline.readline(invitation, true)
-      print invitation
-      gets
+      Readline.readline(invitation, true)
     end
 
     private def get_crystal_version!

@@ -171,7 +171,7 @@ describe "icr command" do
     it "prints runtime error without crashing" do
       input = "\"5a\".to_i"
       output = icr(input)
-      output.should match /invalid Int32: 5a \(ArgumentError\)/
+      output.should match /Invalid Int32: 5a \(ArgumentError\)/
     end
   end
 

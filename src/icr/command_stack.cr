@@ -64,8 +64,13 @@ module Icr
 
     # returns `self`. Removes all values from the end of @commands where the state is `:err`.
     def reset!
+      puts "RESETTING"
       new_stack = commands.dup
-      commands.reverse.each { |c| c.state == "err" ? new_stack.pop : break }
+      commands.reverse.each do |c| 
+        if c.state == "err"
+          new_stack.pop
+        end
+      end
       @commands = new_stack
       self
     end

@@ -25,7 +25,6 @@ module Icr
     private def enable_signal_trap
       Signal::INT.trap {
         @command_stack.reset!
-        puts  
       }
     end
 

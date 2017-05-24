@@ -171,7 +171,7 @@ describe "icr command" do
     it "prints runtime error without crashing" do
       input = "\"5a\".to_i"
       output = icr(input)
-      output.should match /invalid Int32: 5a \(ArgumentError\)/
+      output.should match /Invalid Int32: 5a \(ArgumentError\)/
     end
   end
 
@@ -237,4 +237,11 @@ describe "icr command" do
     CRYSTAL
     icr(input).should match /45/
   end
+
+  it "fails for unterminated char literal" do
+    input = <<-CRYSTAL
+    puts 'aa'
+    CRYSTAL
+    icr(input).should match /\schar\s/
+  end 
 end

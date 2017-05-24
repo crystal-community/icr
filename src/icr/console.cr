@@ -46,9 +46,7 @@ module Icr
       when :unexpected_eof, :unterminated_literal
         # If syntax is invalid because of unexpected EOF, or
         # we are still waiting for a closing bracket, keep asking for input
-        next_command_part = ask_for_input(1)
-        new_command = "#{command}\n#{next_command_part}"
-        process_command(new_command)
+        continue_processing(command)
       when :error
         # Give it the second try, validate the command in scope of entire file
         @command_stack.push(command)
@@ -66,6 +64,13 @@ module Icr
       else
         raise("Unknown SyntaxCheckResult status: #{result.status}")
       end
+    end
+
+    # If the command has been processed, but not complete
+    private def continue_processing(command)
+      next_command_part = ask_for_input(1)
+      new_command = "#{command}\n#{next_command_part}"
+      process_command(new_command)
     end
 
     private def execute
@@ -119,7 +124,12 @@ module Icr
       when .includes?("EOF")
         SyntaxCheckResult.new(:unexpected_eof)
       when .includes?("unterminated")
-        SyntaxCheckResult.new(:unterminated_literal)
+        # unterminated char liter should just be an error
+        if err.message.to_s =~ /\schar\s/
+          SyntaxCheckResult.new(:error, err.message.to_s)
+        else
+          SyntaxCheckResult.new(:unterminated_literal)
+        end
       else
         SyntaxCheckResult.new(:error, err.message.to_s)
       end

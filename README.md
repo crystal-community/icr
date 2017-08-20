@@ -1,4 +1,4 @@
-# ICR - Interactive Crystal [![Build Status](https://travis-ci.org/crystalium/icr.svg?branch=master)](https://travis-ci.org/crystalium/icr)
+# ICR - Interactive Crystal [![Build Status](https://travis-ci.org/crystal-community/icr.svg?branch=master)](https://travis-ci.org/crystal-community/icr)
 
 Interactive console for [Crystal Programming Language](http://crystal-lang.org/).
 
@@ -14,7 +14,7 @@ Interactive console for [Crystal Programming Language](http://crystal-lang.org/)
 
 It's like irb, but for Crystal:
 
-![GIF demo](https://raw.githubusercontent.com/crystalium/icr/master/demo/demo.gif)
+![GIF demo](https://raw.githubusercontent.com/crystal-community/icr/master/demo/demo.gif)
 
 ### Require local files
 You can require local files by relative path (starts with `./`):

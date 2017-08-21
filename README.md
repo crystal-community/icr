@@ -36,7 +36,7 @@ Prerequisites:
 
 Clone the repo:
 ```
-git clone https://github.com/greyblake/crystal-icr.git
+git clone https://github.com/crystal-community/icr.git
 ```
 Switch to repo-directory:
 ```
@@ -59,7 +59,7 @@ If you would like to include icr as a dependency, you can add it to your `shard.
 ```yml
 dependencies:
   icr:
-    github: greyblake/crystal-icr
+    github: crystal-community/icr
     branch: master
 ```
 

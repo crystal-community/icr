@@ -88,7 +88,7 @@ module Icr
     end
 
     private def get_crystal_version!
-      if `which #{CRYSTAL_COMMAND}`.strip  == ""
+      if `which #{CRYSTAL_COMMAND}`.strip == ""
         abort("Can not find `#{CRYSTAL_COMMAND}` command. Make sure you have crystal installed.")
       end
 

@@ -18,7 +18,7 @@ module Icr
       File.write(@tmp_file_path, @command_stack.to_code)
       io_out = IO::Memory.new
       io_error = IO::Memory.new
-      command = "#{CRYSTAL_COMMAND} #{@tmp_file_path}"
+      command = "#{CRYSTAL_COMMAND} #{@tmp_file_path} --no-debug"
       status = Process.run(command, nil, nil, false, true, nil, io_out, io_error)
       print_source_file if @debug
 

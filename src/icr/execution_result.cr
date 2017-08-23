@@ -3,7 +3,7 @@ module Icr
   class ExecutionResult
     getter :success, :value, :output, :error_output
 
-    def initialize(@success : Bool, @value : (String|Nil), @output : (String|Nil), @error_output : (String|Nil))
+    def initialize(@success : Bool, @value : (String | Nil), @output : (String | Nil), @error_output : (String | Nil))
     end
 
     def success?

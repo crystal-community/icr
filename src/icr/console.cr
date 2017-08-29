@@ -28,11 +28,35 @@ module Icr
         __exit__
       elsif %w(exit quit).includes?(input.to_s.strip)
         __exit__
+      elsif %w(|paste).includes?(input.to_s.strip)
+        paste_mode()
       elsif input.to_s.strip != ""
         process_command(input.to_s)
       end
     end
 
+    private def paste_mode()
+      puts "# Entering paste mode (ctrl-D to finish)"
+      input = ""
+      loop do
+        input_line = Readline.readline()
+
+        if input_line.nil?
+          puts "\n\n# Ctrl-D was pressed, now interpreting...\n"
+          break
+        end
+
+        input += input_line
+        input += "\n"
+      end
+
+      if input.to_s.strip != ""
+        process_command(input.to_s)
+      else
+        puts "# Nothing pasted, nothing gained"
+      end
+    end
+    
     private def process_command(command : String)
       result = check_syntax(command)
       process_result(result, command)

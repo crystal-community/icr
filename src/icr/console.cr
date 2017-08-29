@@ -53,10 +53,10 @@ module Icr
       if input.to_s.strip != ""
         process_command(input.to_s)
       else
-        puts "# Nothing pasted, nothing gained"
+        puts "\n# Nothing pasted, nothing gained\n"
       end
     end
-    
+
     private def process_command(command : String)
       result = check_syntax(command)
       process_result(result, command)

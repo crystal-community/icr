@@ -28,7 +28,7 @@ module Icr
         __exit__
       elsif %w(exit quit).includes?(input.to_s.strip)
         __exit__
-      elsif %w(|paste).includes?(input.to_s.strip)
+      elsif input.to_s.strip == "paste"
         paste_mode()
       elsif input.to_s.strip != ""
         process_command(input.to_s)

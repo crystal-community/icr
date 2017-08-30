@@ -37,20 +37,21 @@ module Icr
 
     private def paste_mode()
       puts "# Entering paste mode (ctrl-D to finish)"
-      input = ""
-      loop do
-        input_line = Readline.readline()
+      input = String.build do |input|
+        loop do
+          input_line = Readline.readline()
 
-        if input_line.nil?
-          puts "\n\n# Ctrl-D was pressed, now interpreting...\n"
-          break
+          if input_line.nil?
+            puts "\n\n# Ctrl-D was pressed, now interpreting...\n"
+            break
+          end
+
+          input << input_line
+          input << "\n"
         end
-
-        input += input_line
-        input += "\n"
       end
 
-      if input.to_s.strip != ""
+      if !input.blank?
         process_command(input.to_s)
       else
         puts "\n# Nothing pasted, nothing gained\n"

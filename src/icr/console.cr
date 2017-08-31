@@ -42,7 +42,7 @@ module Icr
           input_line = Readline.readline()
 
           if input_line.nil?
-            puts "\n\n# Ctrl-D was pressed, now interpreting...\n"
+            puts "\n\n# Ctrl-D was pressed, exiting paste mode...\n"
             break
           end
 

@@ -40,7 +40,7 @@ git clone https://github.com/crystal-community/icr.git
 ```
 Switch to repo-directory:
 ```
-cd crystal-icr
+cd icr
 ```
 Build:
 ```

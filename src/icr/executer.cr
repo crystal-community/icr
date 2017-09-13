@@ -18,7 +18,7 @@ module Icr
       File.write(@tmp_file_path, @command_stack.to_code)
       io_out = IO::Memory.new
       io_error = IO::Memory.new
-      command = "#{CRYSTAL_COMMAND} #{@tmp_file_path}"
+      command = "#{CRYSTAL_COMMAND} #{@tmp_file_path} --no-debug"
       status = Process.run(command, nil, nil, false, true, nil, io_out, io_error)
       print_source_file if @debug
 
@@ -32,11 +32,12 @@ module Icr
       else
         # Remove invalid command from the stack
         @command_stack.pop
+
+        # Get the last message in the backtrace (in order not to show tmp file internals)
         error_message =
-          # Get the last message in the backktrace (in order not to show tmp file internals)
           io_out.to_s.split(/#{@tmp_file_name}:\d+: /).last.strip +
-          "\n" +
-          io_error.to_s.strip
+            "\n" +
+            io_error.to_s.strip
         ExecutionResult.new(false, nil, nil, error_message.strip)
       end
     end

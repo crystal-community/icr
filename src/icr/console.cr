@@ -28,8 +28,33 @@ module Icr
         __exit__
       elsif %w(exit quit).includes?(input.to_s.strip)
         __exit__
+      elsif input.to_s.strip == "paste"
+        paste_mode()
       elsif input.to_s.strip != ""
         process_command(input.to_s)
+      end
+    end
+
+    private def paste_mode()
+      puts "# Entering paste mode (ctrl-D to finish)"
+      input = String.build do |input|
+        loop do
+          input_line = Readline.readline()
+
+          if input_line.nil?
+            puts "\n\n# Ctrl-D was pressed, exiting paste mode...\n"
+            break
+          end
+
+          input << input_line
+          input << "\n"
+        end
+      end
+
+      if !input.blank?
+        process_command(input.to_s)
+      else
+        puts "\n# Nothing pasted, nothing gained\n"
       end
     end
 
@@ -93,7 +118,7 @@ module Icr
     end
 
     private def get_crystal_version!
-      if `which #{CRYSTAL_COMMAND}`.strip  == ""
+      if `which #{CRYSTAL_COMMAND}`.strip == ""
         abort("Can not find `#{CRYSTAL_COMMAND}` command. Make sure you have crystal installed.")
       end
 

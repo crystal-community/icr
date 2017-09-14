@@ -58,7 +58,12 @@ module Icr
       end
     end
 
+    private def last_value
+      @executer.execute.value
+    end
+
     private def process_command(command : String)
+      command = command.to_s.gsub(/\b_\b/) { last_value.to_s.strip }
       result = check_syntax(command)
       process_result(result, command)
     end

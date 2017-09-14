@@ -242,6 +242,10 @@ describe "icr command" do
     it "allows for constant assignment" do
       input = <<-CRYSTAL
       A = 0
+      B=1
+      HTTP_STATUS    =    404
+      Constant = "cheese"
+      ISO8859_1 = :latin 
       CRYSTAL
       icr(input).should_not match /dynamic\sconstant/
     end

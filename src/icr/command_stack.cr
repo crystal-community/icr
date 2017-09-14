@@ -27,6 +27,8 @@ module Icr
         type = :alias
       elsif command.strip =~ /^[A-Z]+([a-z_0-9].+)?\s*\={1}[^=]/
         type = :constant_assignment
+      elsif command.strip =~ /^macro\s/
+        type = :macro
       else
         type = :regular
       end
@@ -50,6 +52,7 @@ module Icr
         #{code(:struct)}
         #{code(:alias)}
         #{code(:constant_assignment)}
+        #{code(:macro)}
 
         def __icr_exec__
         #{code(:regular, 1)}

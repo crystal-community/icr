@@ -259,4 +259,13 @@ describe "icr command" do
       icr(input).should match /false/
     end
   end
+  it "allows for macros" do
+    input = <<-CRYSTAL
+    macro a_macro
+      42
+    end
+    a_macro
+    CRYSTAL
+    icr(input).should match /42/
+  end
 end

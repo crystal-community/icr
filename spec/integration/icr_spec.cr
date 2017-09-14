@@ -238,10 +238,21 @@ describe "icr command" do
     icr(input).should match /45/
   end
 
-  it "allows for constant assignment" do
-    input = <<-CRYSTAL
-    A = 0
-    CRYSTAL
-    icr(input).should_not match /dynamic\sconstant/
+  describe "using constants" do
+    it "allows for constant assignment" do
+      input = <<-CRYSTAL
+      A = 0
+      CRYSTAL
+      icr(input).should_not match /dynamic\sconstant/
+    end
+
+    it "still allows for checking constant equality" do
+      input = <<-CRYSTAL
+      A = 0
+      B = 1
+      A == B
+      CRYSTAL
+      icr(input).should match /false/
+    end
   end
 end

@@ -246,6 +246,7 @@ describe "icr command" do
       HTTP_STATUS    =    404
       Constant = "cheese"
       ISO8859_1 = :latin 
+      A =~ /test/
       CRYSTAL
       icr(input).should_not match /dynamic\sconstant/
     end
@@ -257,6 +258,14 @@ describe "icr command" do
       A == B
       CRYSTAL
       icr(input).should match /false/
+    end
+
+    it "still throws dynamic constant assignment errors when needed" do
+      input = <<-CRYSTAL
+      def test
+        A = 1
+      CRYSTAL
+      icr(input).should match /dynamic\sconstant\sassignment/
     end
   end
   it "allows for macros" do

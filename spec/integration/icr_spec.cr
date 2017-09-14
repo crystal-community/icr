@@ -277,4 +277,56 @@ describe "icr command" do
     CRYSTAL
     icr(input).should match /42/
   end
+
+  context "_" do
+    it "returns last value" do
+      icr("a = 42\n_").should match /42/
+    end
+
+    it "returns nil if there is no last value" do
+      icr("_").should match /nil/
+    end
+
+    context "in expressions" do
+      it "works with unary operators" do
+        icr("true\n!_").should match /false/
+      end
+
+      it "works with binary operators" do
+        icr("42\n_ + 1").should match /43/
+        icr("42\n1 + _").should match /43/
+      end
+
+      it "allows method calls" do
+        input = <<-CRYSTAL
+          "aabbcc"
+          _.count('a')
+        CRYSTAL
+        icr(input).should match /2/
+      end
+
+      it "works in methods/blocks" do
+        input = <<-CRYSTAL
+          38
+          def add(v)
+            _ + v
+          end
+
+          add(3)
+
+          -> { _ + 1 }.call
+        CRYSTAL
+
+        icr(input).should match /42/
+      end
+    end
+
+    it "is not interpreted as last value if is a part of var name or literal" do
+      icr("_v = 0").should match /0/
+      icr("v_ = 0").should match /0/
+      icr("v_1 = 0").should match /0/
+      icr("filename = \"spec_helper.cr\"").should match /spec_helper.cr/
+      icr("require \"secure_random\"").should match /ok/
+    end
+  end
 end

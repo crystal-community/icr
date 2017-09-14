@@ -35,11 +35,11 @@ module Icr
       end
     end
 
-    private def paste_mode()
+    private def paste_mode
       puts "# Entering paste mode (ctrl-D to finish)"
       input = String.build do |input|
         loop do
-          input_line = Readline.readline()
+          input_line = Readline.readline
 
           if input_line.nil?
             puts "\n\n# Ctrl-D was pressed, exiting paste mode...\n"
@@ -58,7 +58,12 @@ module Icr
       end
     end
 
+    private def last_value
+      @executer.execute.value
+    end
+
     private def process_command(command : String)
+      command = command.to_s.gsub(/\b__\b/) { last_value.to_s.strip }
       result = check_syntax(command)
       process_result(result, command)
     end

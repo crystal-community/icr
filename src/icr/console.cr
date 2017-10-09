@@ -125,7 +125,7 @@ module Icr
         SyntaxCheckResult.new(:unexpected_eof)
       when .includes?("unterminated")
         # unterminated char liter should just be an error
-        if err.message.to_s =~ /\schar\s/
+        if err.message.to_s =~ /unterminated\schar\sliteral/
           SyntaxCheckResult.new(:error, err.message.to_s)
         else
           SyntaxCheckResult.new(:unterminated_literal)

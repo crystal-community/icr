@@ -171,7 +171,7 @@ describe "icr command" do
     it "prints runtime error without crashing" do
       input = "\"5a\".to_i"
       output = icr(input)
-      output.should match /Invalid Int32: 5a \(ArgumentError\)/
+      output.should match /invalid Int32: 5a \(ArgumentError\)/i
     end
   end
 
@@ -238,6 +238,13 @@ describe "icr command" do
     icr(input).should match /45/
   end
 
+  it "fails for unterminated char literal" do
+    input = <<-CRYSTAL
+    puts 'aa'
+    CRYSTAL
+    icr(input).should match /\schar\s/
+  end
+
   describe "using constants" do
     it "allows for constant assignment" do
       input = <<-CRYSTAL
@@ -292,6 +299,7 @@ describe "icr command" do
       icr(input).should match /dynamic\sconstant\sassignment/
     end
   end
+
   it "allows for macros" do
     input = <<-CRYSTAL
     macro a_macro

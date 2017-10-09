@@ -1,4 +1,4 @@
-# ICR - Interactive Crystal [![Build Status](https://travis-ci.org/greyblake/crystal-icr.svg?branch=master)](https://travis-ci.org/greyblake/crystal-icr)
+# ICR - Interactive Crystal [![Build Status](https://travis-ci.org/crystal-community/icr.svg?branch=master)](https://travis-ci.org/crystal-community/icr)
 
 Interactive console for [Crystal Programming Language](http://crystal-lang.org/).
 
@@ -14,7 +14,7 @@ Interactive console for [Crystal Programming Language](http://crystal-lang.org/)
 
 It's like irb, but for Crystal:
 
-![GIF demo](https://raw.githubusercontent.com/greyblake/crystal-icr/master/demo/demo.gif)
+![GIF demo](https://raw.githubusercontent.com/crystal-community/icr/master/demo/demo.gif)
 
 ### Require local files
 You can require local files by relative path (starts with `./`):
@@ -36,11 +36,11 @@ Prerequisites:
 
 Clone the repo:
 ```
-git clone https://github.com/greyblake/crystal-icr.git
+git clone https://github.com/crystal-community/icr.git
 ```
 Switch to repo-directory:
 ```
-cd crystal-icr
+cd icr
 ```
 Build:
 ```
@@ -59,7 +59,7 @@ If you would like to include icr as a dependency, you can add it to your `shard.
 ```yml
 dependencies:
   icr:
-    github: greyblake/crystal-icr
+    github: crystal-community/icr
     branch: master
 ```
 

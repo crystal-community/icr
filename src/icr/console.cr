@@ -148,13 +148,12 @@ module Icr
       case err.message.to_s
       when .includes?("EOF")
         SyntaxCheckResult.new(:unexpected_eof)
+      when .includes?("unterminated char literal")
+        # catches error for 'aa' and returns compiler error
+        SyntaxCheckResult.new(:ok)
       when .includes?("unterminated")
-        # unterminated char liter should just be an error
-        if err.message.to_s =~ /unterminated\schar\sliteral/
-          SyntaxCheckResult.new(:error, err.message.to_s)
-        else
-          SyntaxCheckResult.new(:unterminated_literal)
-        end
+        # catches unterminated hashes and arrays
+        SyntaxCheckResult.new(:unterminated_literal)
       else
         SyntaxCheckResult.new(:error, err.message.to_s)
       end

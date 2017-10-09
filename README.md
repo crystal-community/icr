@@ -7,6 +7,7 @@ Interactive console for [Crystal Programming Language](http://crystal-lang.org/)
 * [Installation](#installation)
   * [Arch Linux](#arch-linux)
 * [How does it work?](#how-does-it-work)
+* [Commands and special locals](#commands-and-special-locals)
 * [Development](#development)
 * [Contributors](#contributors)
 
@@ -77,6 +78,20 @@ Arch Linux users can install ICR [from AUR](https://aur.archlinux.org/packages/c
 * Every time you press `Enter` it adds new instruction, generates new crystal program and executes it.
 * The output is split into 2 parts: regular program output (e.g. output from `puts 10`) and value returned by the last command
 * The regular output is saved, and when you type a new instruction, new program is generated. The saved output is subtracted from the new output, and the difference is printed out. It makes an illusion that only new instructions are executed :)
+
+## Commands and special locals
+
+* `paste` - enables paste mode
+* `quit` or `exit` - exits current interactive console
+* `__` - holds the result of the last expression. Example:
+
+```crystal
+icr > "5" + "2"
+=> "52"
+icr > __.to_i - 10
+=> 42
+
+```
 
 ## Development
 

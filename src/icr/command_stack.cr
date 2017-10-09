@@ -63,6 +63,24 @@ module Icr
       code.strip
     end
 
+    # returns `Array(String)` of the raw `Command` values
+    def lines
+      commands.map(&.value)
+    end
+
+    # returns `self`. Removes all values from the end of @commands where the state is `:err`.
+    def reset!
+      puts "RESETTING"
+      new_stack = commands.dup
+      commands.reverse.each do |c| 
+        if c.state == "err"
+          new_stack.pop
+        end
+      end
+      @commands = new_stack
+      self
+    end
+
     private def code(command_type, indent_level = 0)
       cmds = @commands.select { |cmd| cmd.type == command_type }.map &.value
       cmds.map { |cmd| ("  " * indent_level) + cmd }.join("\n")

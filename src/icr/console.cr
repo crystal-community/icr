@@ -14,6 +14,7 @@ module Icr
     end
 
     def start(code : String)
+      enable_signal_trap
       process_input(code) unless code.empty?
       loop do
         input = ask_for_input
@@ -21,9 +22,15 @@ module Icr
       end
     end
 
+    private def enable_signal_trap
+      Signal::INT.trap {
+        @command_stack.reset!
+      }
+    end
+
     private def process_input(input)
       if input.nil?
-        # Ctrl+D was pressed, print new line before exit
+        # ^D was called. Exit
         puts
         __exit__
       elsif %w(exit quit).includes?(input.to_s.strip)
@@ -71,7 +78,7 @@ module Icr
     private def process_result(result : SyntaxCheckResult, command : String)
       case result.status
       when :ok
-        @command_stack.push(command)
+        @command_stack.push(command + " ##{Command::DELIMITER}ok")
         execute
       when :unexpected_eof, :unterminated_literal
         # If syntax is invalid because of unexpected EOF, or
@@ -81,7 +88,7 @@ module Icr
         process_command(new_command)
       when :error
         # Give it the second try, validate the command in scope of entire file
-        @command_stack.push(command)
+        @command_stack.push(command + " ##{Command::DELIMITER}err")
         entire_file_result = check_syntax(@command_stack.to_code)
         case entire_file_result.status
         when :ok

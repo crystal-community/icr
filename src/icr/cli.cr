@@ -1,10 +1,13 @@
 require "option_parser"
 require "../icr"
-require "./settings"
+
+XDG_CONFIG_HOME        = ENV.fetch("XDG_CONFIG_HOME", "~/.config")
+CONFIG_HOME            = File.expand_path "#{XDG_CONFIG_HOME}/icr"
+USAGE_WARNING_ACCEPTED = "#{CONFIG_HOME}/usage_warning_accepted"
 
 is_debug = false
 libs = [] of String
-settings = Icr::Settings.load
+usage_warning_accepted = File.exists? USAGE_WARNING_ACCEPTED
 
 def print_stamp
   puts "Author: #{Icr::AUTHOR}"
@@ -52,13 +55,19 @@ OptionParser.parse! do |parser|
     libs.push(%{require "#{filename}"})
   end
 
-  parser.on("--disable-usage-warning", "Disable usage warning") do
-    settings.print_usage_warning = false
-    settings.save
+  unless usage_warning_accepted
+    parser.on("--disable-usage-warning", "Disable usage warning") do
+      Dir.mkdir CONFIG_HOME unless Dir.exists? CONFIG_HOME
+      File.touch USAGE_WARNING_ACCEPTED
+      usage_warning_accepted = true
+
+      puts "Usage warning disabled. Run ICR again to continue."
+      exit 0
+    end
   end
 end
 
-print_usage_warning if settings.print_usage_warning
+print_usage_warning unless usage_warning_accepted
 
 code = libs.join(";")
 Icr::Console.new(is_debug).start(code)

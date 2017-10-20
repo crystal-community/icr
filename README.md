@@ -2,9 +2,6 @@
 
 Interactive console for [Crystal Programming Language](http://crystal-lang.org/).
 
-:warning: ICR is not a real REPL and may have side effects.
-Please read the documentation carefully and be sure you understand how it works before using it.
-
 * [Usage](#usage)
   * [Require local files](#require-local-files)
 * [Installation](#installation)

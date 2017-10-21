@@ -17,12 +17,12 @@ end
 def print_usage_warning
   puts <<-WARN
   WARNING: ICR is not a full featured REPL.
-  It works by building up source file, compiling and re-running all of it on each input.
+  It works by building up a source file, compiling and re-running all of it on each input.
   That has side effects:
 
     * Current time and random numbers change retroactively
     * Files and network/database connections are reopened on every run
-    * Running a sleep or benchmark will delay an execution of next inputs
+    * Running a sleep or benchmark will delay execution of next inputs
     * Unexpected behavior of fibers, channels, shell commands and maybe others
 
   Be careful while running your commands.
@@ -55,15 +55,13 @@ OptionParser.parse! do |parser|
     libs.push(%{require "#{filename}"})
   end
 
-  unless usage_warning_accepted
-    parser.on("--disable-usage-warning", "Disable usage warning") do
-      Dir.mkdir CONFIG_HOME unless Dir.exists? CONFIG_HOME
-      File.touch USAGE_WARNING_ACCEPTED
-      usage_warning_accepted = true
+  parser.on("--disable-usage-warning", "Disable usage warning") do
+    Dir.mkdir_p CONFIG_HOME
+    File.touch USAGE_WARNING_ACCEPTED
+    usage_warning_accepted = true
 
-      puts "Usage warning disabled. Run ICR again to continue."
-      exit 0
-    end
+    puts "Usage warning disabled. Run ICR again to continue."
+    exit 0
   end
 end
 

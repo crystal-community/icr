@@ -1,3 +1,12 @@
+#### v0.3.0 2017-10-21
+* Add slightly better support for macros (jwoertink) #47
+* Add --no-debug flag to improve speed (faustinoaq) #52
+* Implementation of the paste mode (Porcupine96) #56
+* Catch constant assignment and set it outside of the exec method (jwoertink) #59
+* Last result local '__' (veelenga) #63
+* Fixed error with unterminated char literal (jwoertink) #50
+* Usage warning (veelenga) #66
+
 #### v0.2.14 2017-01-31
 * (fix) behavioral difference when reassigning variable in multi-line blocks (jwoertink)
 

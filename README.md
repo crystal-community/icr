@@ -49,7 +49,7 @@ make
 ```
 And create symlink of `./bin/icr` in to direcotory that is listed in your `$PATH`, e.g.:
 ```
-sudo ln -s $(realpath ./bin/icr) /usr/bin/icr
+sudo ln -s $(realpath ./bin/icr) /usr/local/bin/icr
 ```
 _(it's necessary only for the first time)_
 

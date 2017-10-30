@@ -5,6 +5,3 @@ authors:
   - Potapov Sergey <blake131313@gmail.com>
 
 license: MIT
-
-scripts:
-  postinstall: make install

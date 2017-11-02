@@ -10,6 +10,7 @@ require "./icr/command_stack"
 require "./icr/executer"
 require "./icr/execution_result"
 require "./icr/syntax_check_result"
+require "./icr/highlighter"
 require "./icr/console"
 
 module Icr

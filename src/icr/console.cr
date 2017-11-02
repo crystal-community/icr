@@ -72,6 +72,12 @@ module Icr
       case result.status
       when :ok
         @command_stack.push(command)
+
+        # Move the cursor at the first line of command
+        command.lines.size.times { STDOUT << "\e[A\e[K" }
+
+        STDOUT << Highlighter.new(default_invitation).highlight(command)
+
         execute
       when :unexpected_eof, :unterminated_literal
         # If syntax is invalid because of unexpected EOF, or
@@ -134,7 +140,7 @@ module Icr
     end
 
     private def default_invitation
-      "icr(#{@crystal_version}) > "
+      "\e[0;1micr(#{@crystal_version}) >\e[0m "
     end
 
     private def print_execution_result?

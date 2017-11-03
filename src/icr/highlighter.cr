@@ -181,7 +181,8 @@ class Icr::Highlighter
         end_highlight_class io
         break
       when :EOF
-        raise "Unterminated symbol array literal"
+        end_highlight_class io
+        break
       end
     end
   end

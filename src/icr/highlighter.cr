@@ -33,16 +33,20 @@ class Icr::Highlighter
   end
 
   KEYWORDS = Set{
-    :def, :if, :else, :elsif, :end,
-    :class, :module, :include, :extend,
-    :while, :until, :do, :yield, :return, :unless, :next, :break, :begin,
-    :lib, :fun, :type, :struct, :union, :enum, :macro, :out, :require,
-    :case, :when, :then, :of, :abstract, :rescue, :ensure, :is_a?,
-    :alias, :pointerof, :sizeof, :instance_sizeof, :as, :typeof, :for, :in,
-    :undef, :with, :self, :super, :private, :protected, "new",
+    "new",
+    :abstract, :alias, :as, :as?, :asm, :begin, :break, :case, :class,
+    :def, :do, :else, :elsif, :end, :ensure, :enum, :extend, :for, :fun,
+    :if, :in, :include, :instance_sizeof, :is_a?, :lib, :macro, :module,
+    :next, :nil?, :of, :out, :pointerof, :private, :protected, :require,
+    :rescue, :responds_to?, :return, :select, :sizeof, :struct, :super,
+    :then, :type, :typeof, :undef, :union, :uninitialized, :unless, :until,
+    :when, :while, :with, :yield,
   }
 
-  SPECIAL_VALUES = Set{:true, :false, :nil}
+  SPECIAL_VALUES = Set{
+    :true, :false, :nil, :self,
+    :__FILE__, :__DIR__, :__LINE__, :__END_LINE__,
+  }
 
   OPERATORS = Set{
     :"+", :"-", :"*", :"/",

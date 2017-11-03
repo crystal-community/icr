@@ -136,7 +136,7 @@ class Icr::Highlighter
   end
 
   private def highlight_delimiter_state(lexer, token, io)
-    start_highlight_class :string, io
+    start_highlight :string, io
 
     io << token.raw
 
@@ -145,13 +145,13 @@ class Icr::Highlighter
       case token.type
       when :DELIMITER_END
         print_raw io, token.raw
-        end_highlight_class io
+        end_highlight io
         break
       when :INTERPOLATION_START
-        end_highlight_class io
+        end_highlight io
         highlight "\#{", :interpolation, io
         highlight_normal_state lexer, io, break_on_rcurly: true
-        start_highlight_class "s", io
+        start_highlight :string, io
         highlight "}", :interpolation, io
       when :EOF
         break
@@ -162,7 +162,7 @@ class Icr::Highlighter
   end
 
   private def highlight_string_array(lexer, token, io)
-    start_highlight_class :string, io
+    start_highlight :string, io
     if token.type == :STRING_ARRAY_START
       io << "%w("
     else
@@ -178,10 +178,10 @@ class Icr::Highlighter
         first = false
       when :STRING_ARRAY_END
         io << ")"
-        end_highlight_class io
+        end_highlight io
         break
       when :EOF
-        end_highlight_class io
+        end_highlight io
         break
       end
     end
@@ -198,24 +198,24 @@ class Icr::Highlighter
     end
   end
 
-  private def highlight(token, klass, io)
-    start_highlight_class klass, io
+  private def highlight(token, type, io)
+    start_highlight type, io
     io << token
-    end_highlight_class io
+    end_highlight io
   end
 
-  private def start_highlight_class(klass, io)
-    @highlight_stack << highlight_class(klass)
+  private def start_highlight(type, io)
+    @highlight_stack << highlight_type(type)
     io << "\e[0;#{@highlight_stack.last}m"
   end
 
-  private def end_highlight_class(io)
+  private def end_highlight(io)
     @highlight_stack.pop
     io << "\e[0;#{@highlight_stack.last?}m"
   end
 
-  private def highlight_class(klass)
-    case klass
+  private def highlight_type(type)
+    case type
     when :comment
       Highlight.new(:black, bold: true)
     when :number, :char

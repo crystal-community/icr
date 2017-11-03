@@ -73,10 +73,12 @@ module Icr
       when :ok
         @command_stack.push(command)
 
-        # Move the cursor at the first line of command
-        command.lines.size.times { STDOUT << "\e[A\e[K" }
+        if Colorize.enabled?
+          # Move the cursor at the first line of command
+          command.lines.size.times { STDOUT << "\e[A\e[K" }
 
-        STDOUT << Highlighter.new(default_invitation).highlight(command)
+          STDOUT << Highlighter.new(default_invitation).highlight(command)
+        end
 
         execute
       when :unexpected_eof, :unterminated_literal
@@ -140,7 +142,7 @@ module Icr
     end
 
     private def default_invitation
-      "\e[0;1micr(#{@crystal_version}) >\e[0m "
+      "icr(#{@crystal_version}) > ".colorize.mode(:bold).to_s
     end
 
     private def print_execution_result?

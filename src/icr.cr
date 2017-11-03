@@ -2,6 +2,7 @@ require "readline"
 require "tempfile"
 require "io/memory"
 require "secure_random"
+require "colorize"
 
 require "compiler/crystal/syntax"
 

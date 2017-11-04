@@ -5,3 +5,5 @@
 
 /bin/icr
 src/bin
+
+.icr.*.cr

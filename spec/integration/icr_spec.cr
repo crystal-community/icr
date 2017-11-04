@@ -358,7 +358,7 @@ describe "icr command" do
       icr("v__ = 0").should match /0/
       icr("v__1 = 0").should match /0/
       icr("filename = \"spec__helper.cr\"").should match /spec__helper.cr/
-      icr("require \"secure_random\"").should match /ok/
+      icr("require \"random/secure\"").should match /ok/
     end
   end
 end

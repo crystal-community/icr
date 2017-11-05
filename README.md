@@ -82,6 +82,7 @@ Arch Linux users can install ICR [from AUR](https://aur.archlinux.org/packages/c
 ## Commands and special locals
 
 * `paste` - enables paste mode
+* `debug` - toggles debug mode off and on. In debug mode icr will print the code before executing it.
 * `quit` or `exit` - exits current interactive console
 * `__` - holds the result of the last expression. Example:
 

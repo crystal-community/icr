@@ -2,6 +2,8 @@ module Icr
   # Build crystal source code file based on commands in CommandStack, executes it
   # as crystal program and returns result as an instance of ExecutionResult.
   class Executer
+    property debug
+
     def initialize(@command_stack : CommandStack, @debug = false)
       # Temporary file where generated source code is written
       # NOTE: File is created in the current dir, in order to be able to

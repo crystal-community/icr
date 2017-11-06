@@ -142,7 +142,7 @@ module Icr
     end
 
     private def default_invitation
-      "icr(#{@crystal_version}) > ".colorize.mode(:bold).to_s
+      "icr(#{@crystal_version}) > "
     end
 
     private def print_execution_result?

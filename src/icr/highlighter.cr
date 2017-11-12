@@ -138,7 +138,7 @@ class Icr::Highlighter
   private def highlight_delimiter_state(lexer, token, io)
     start_highlight :string, io
 
-    io << token.raw
+    print_raw io, token.raw
 
     while true
       token = lexer.next_string_token(token.delimiter_state)
@@ -184,14 +184,7 @@ class Icr::Highlighter
   end
 
   private def print_raw(io, raw)
-    lines = raw.to_s.lines(chomp: false)
-    if lines.size > 0
-      io << lines.shift
-      lines.each do |line|
-        io.puts "#{@invitation}  "
-        io << line
-      end
-    end
+    io << raw.to_s.gsub("\n", "\n#{@invitation}  ")
   end
 
   private def highlight(token, type, io)

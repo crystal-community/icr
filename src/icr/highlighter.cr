@@ -163,11 +163,7 @@ class Icr::Highlighter
 
   private def highlight_string_array(lexer, token, io)
     start_highlight :string, io
-    if token.type == :STRING_ARRAY_START
-      io << "%w("
-    else
-      io << "%i("
-    end
+    print_raw io, token.raw
     first = true
     while true
       lexer.next_string_array_token
@@ -177,7 +173,7 @@ class Icr::Highlighter
         print_raw io, token.value
         first = false
       when :STRING_ARRAY_END
-        io << ")"
+        print_raw io, token.raw
         end_highlight io
         break
       when :EOF

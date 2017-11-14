@@ -15,7 +15,7 @@ require "./icr/highlighter"
 require "./icr/console"
 
 module Icr
-  VERSION  = "0.3.0"
+  VERSION  = "0.4.0"
   AUTHOR   = "Potapov Sergey"
   HOMEPAGE = "https://github.com/greyblake/crystal-icr"
 

@@ -106,3 +106,5 @@ make test
 - [BlaXpirit](https://github.com/BlaXpirit) Oleh Prypin - fixes for Crystal 0.16
 - [puppetpies](https://github.com/puppetpies) Brian Hood - support of records
 - [jwoertink](https://github.com/jwoertink) Jeremy Woertink - support of -r option and number of other contributions
+- [veelenga](https://github.com/veelenga) V. Elenhaupt - maintenance
+- [MakeNowJust](https://github.com/MakeNowJust) TSUYUSATO Kitsune - syntax highlight support

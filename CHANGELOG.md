@@ -1,3 +1,5 @@
+* Add syntax highlight (MakeNowJust) #70
+
 #### v0.3.0 2017-10-21
 * Add slightly better support for macros (jwoertink) #47
 * Add --no-debug flag to improve speed (faustinoaq) #52

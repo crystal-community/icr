@@ -1,3 +1,9 @@
+#### v0.4.0 2017-11-14
+* Add syntax highlight (MakeNowJust) #70
+* README grammar fixes (Sevensidedmarble) #73
+* Remove post-install scripts (faustinoaq) #69
+* Change suggestion for binary location (coderhs) #68
+
 #### v0.3.0 2017-10-21
 * Add slightly better support for macros (jwoertink) #47
 * Add --no-debug flag to improve speed (faustinoaq) #52

@@ -78,6 +78,14 @@ module Icr
       case result.status
       when :ok
         @command_stack.push(command)
+
+        if Colorize.enabled?
+          # Move the cursor at the first line of command
+          command.lines.size.times { STDOUT << "\e[A\e[K" }
+
+          STDOUT << Highlighter.new(default_invitation).highlight(command)
+        end
+
         execute
       when :unexpected_eof, :unterminated_literal
         # If syntax is invalid because of unexpected EOF, or

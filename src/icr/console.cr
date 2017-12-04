@@ -30,6 +30,9 @@ module Icr
         __exit__
       elsif input.to_s.strip == "paste"
         paste_mode()
+      elsif input.to_s.strip == "reset"
+        @command_stack.clear
+        puts "Crystal environment reset."
       elsif input.to_s.strip == "debug"
         @executer.debug = !@executer.debug
         puts "Debug: #{@executer.debug}"

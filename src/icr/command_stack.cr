@@ -9,6 +9,10 @@ module Icr
       @commands = [] of Command
     end
 
+    def clear
+      @commands.clear
+    end
+
     # Add new command.
     def push(command : String)
       if command.strip =~ /^require\s/

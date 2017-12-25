@@ -23,7 +23,7 @@ You can require local files by relative path (starts with `./`):
 require "./src/my_cool_lib"
 ```
 
-Libs can also be required from the cli
+Libs can also be required from the cli:
 
 ```
 $ icr -r colorize -r ./src/my_cool_lib
@@ -75,14 +75,16 @@ Arch Linux users can install ICR [from AUR](https://aur.archlinux.org/packages/c
 
 
 ## How does it work?
-* Every time you press `Enter` it adds new instruction, generates new crystal program and executes it.
-* The output is split into 2 parts: regular program output (e.g. output from `puts 10`) and value returned by the last command
-* The regular output is saved, and when you type a new instruction, new program is generated. The saved output is subtracted from the new output, and the difference is printed out. It makes an illusion that only new instructions are executed :)
+* Every time you press `Enter` it adds a new instruction, generates a new crystal program, and executes it.
+* The output is split into 2 parts: regular program output (e.g. output from `puts 10`) and the value returned by the last command.
+* The regular output is saved, and when you type a new instruction, a new program is generated. The saved output is subtracted from the new output, and the difference is printed out. It creates an illusion that only new instructions are executed :)
 
 ## Commands and special locals
 
 * `paste` - enables paste mode
+* `debug` - toggles debug mode off and on. In debug mode icr will print the code before executing it.
 * `quit` or `exit` - exits current interactive console
+* `reset` - clear out all of the accumulated commands. 
 * `__` - holds the result of the last expression. Example:
 
 ```crystal
@@ -106,3 +108,5 @@ make test
 - [BlaXpirit](https://github.com/BlaXpirit) Oleh Prypin - fixes for Crystal 0.16
 - [puppetpies](https://github.com/puppetpies) Brian Hood - support of records
 - [jwoertink](https://github.com/jwoertink) Jeremy Woertink - support of -r option and number of other contributions
+- [veelenga](https://github.com/veelenga) V. Elenhaupt - maintenance
+- [MakeNowJust](https://github.com/MakeNowJust) TSUYUSATO Kitsune - syntax highlight support

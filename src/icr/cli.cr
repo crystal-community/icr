@@ -63,6 +63,10 @@ OptionParser.parse! do |parser|
     puts "Usage warning disabled. Run ICR again to continue."
     exit 0
   end
+
+  parser.on("--no-color", "Disable colorized output (also highlight)") do
+    Colorize.enabled = false
+  end
 end
 
 print_usage_warning unless usage_warning_accepted

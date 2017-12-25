@@ -360,5 +360,9 @@ describe "icr command" do
       icr("filename = \"spec__helper.cr\"").should match /spec__helper.cr/
       icr("require \"random/secure\"").should match /ok/
     end
+
+    it "highlights input code" do
+      icr("1 + 2").should contain("\e[0;34m1\e[0;m \e[0;37m+\e[0;m \e[0;34m2\e[0;m")
+    end
   end
 end

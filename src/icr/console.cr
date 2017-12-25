@@ -3,7 +3,7 @@ module Icr
   class Console
     @crystal_version : String?
 
-    def initialize(@debug = false)
+    def initialize(debug = false)
       @command_stack = CommandStack.new
       @executer = Executer.new(@command_stack, debug)
       @crystal_version = get_crystal_version!
@@ -30,6 +30,12 @@ module Icr
         __exit__
       elsif input.to_s.strip == "paste"
         paste_mode()
+      elsif input.to_s.strip == "reset"
+        @command_stack.clear
+        puts "Crystal environment reset."
+      elsif input.to_s.strip == "debug"
+        @executer.debug = !@executer.debug
+        puts "Debug: #{@executer.debug}"
       elsif input.to_s.strip != ""
         process_command(input.to_s)
       end
@@ -72,6 +78,14 @@ module Icr
       case result.status
       when :ok
         @command_stack.push(command)
+
+        if Colorize.enabled?
+          # Move the cursor at the first line of command
+          command.lines.size.times { STDOUT << "\e[A\e[K" }
+
+          STDOUT << Highlighter.new(default_invitation).highlight(command)
+        end
+
         execute
       when :unexpected_eof, :unterminated_literal
         # If syntax is invalid because of unexpected EOF, or

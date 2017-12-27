@@ -2,11 +2,13 @@ require "option_parser"
 require "http/client"
 require "semantic_version"
 require "json"
+require "yaml"
 require "../icr"
 
 XDG_CONFIG_HOME        = ENV.fetch("XDG_CONFIG_HOME", "~/.config")
 CONFIG_HOME            = File.expand_path "#{XDG_CONFIG_HOME}/icr"
 USAGE_WARNING_ACCEPTED = "#{CONFIG_HOME}/usage_warning_accepted"
+LATEST_VERSION_FILE    = "#{CONFIG_HOME}/version.yml"
 
 is_debug = false
 libs = [] of String
@@ -36,6 +38,26 @@ def print_usage_warning
 end
 
 def check_update_avaiable
+  if !File.exists?(LATEST_VERSION_FILE)
+    Dir.mkdir_p CONFIG_HOME
+    raw = YAML.dump({
+      "latest_version" => Icr::VERSION,
+      "next_check_time" => Time.now + 1.day
+    })
+
+    File.open(LATEST_VERSION_FILE, "w") do |f|
+      f << raw
+    end
+
+    config = YAML.parse(raw)
+    first_time = true
+  else
+    config = YAML.parse(File.open(LATEST_VERSION_FILE, "r"))
+    first_time = false
+  end
+
+  return if !first_time && Time.now < config["check_next_time"].as_time
+
   response = HTTP::Client.get "https://api.github.com/repos/crystal-community/icr/releases/latest"
   if response.success?
     # Remain avaiable rate limit (60 requests per hour is enough)
@@ -48,8 +70,17 @@ def check_update_avaiable
       # Please check it: https://github.com/crystal-community/icr/blob/master/CHANGELOG.md
       ######################################################################################
       WARN
+
+      File.open(LATEST_VERSION_FILE, "w") do |f|
+        data = config.as_h
+        data["latest_version"] = latest_version
+        data["next_check_time"] = Time.now + 1.day
+        f <<  YAML.dump(data)
+      end
     end
   end
+rescue
+  # do nothing
 end
 
 OptionParser.parse! do |parser|

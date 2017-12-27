@@ -44,7 +44,7 @@ def check_update_avaiable
       puts <<-WARN
       ######################################################################################
       # icr #{latest_version} is avaiable. You are on #{Icr::VERSION}.
-      # You can disable update check with --disable-update-check flag.
+      # You can disable update avaiable check with --disable-update-avaiable flag.
       # Please check it: https://github.com/crystal-community/icr/blob/master/CHANGELOG.md
       ######################################################################################
       WARN

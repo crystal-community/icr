@@ -41,12 +41,13 @@ def check_update_avaiable
     # Remain avaiable rate limit (60 requests per hour is enough)
     latest_version = JSON.parse(response.body)["tag_name"].to_s.gsub("v", "")
     if SemanticVersion.parse(latest_version) <=> SemanticVersion.parse(Icr::VERSION) > 0
-      puts
-      puts "######################################################################################"
-      puts "# icr #{latest_version} is avaiable. You are on #{Icr::VERSION}."
-      puts "# You can disable update check with --disable-update-check flag."
-      puts "# Please check it: https://github.com/crystal-community/icr/blob/master/CHANGELOG.md"
-      puts "######################################################################################"
+      puts <<-WARN
+      ######################################################################################
+      # icr #{latest_version} is avaiable. You are on #{Icr::VERSION}.
+      # You can disable update check with --disable-update-check flag.
+      # Please check it: https://github.com/crystal-community/icr/blob/master/CHANGELOG.md
+      ######################################################################################
+      WARN
     end
   end
 end

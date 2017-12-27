@@ -13,7 +13,7 @@ LATEST_VERSION_FILE    = "#{CONFIG_HOME}/version.yml"
 is_debug = false
 libs = [] of String
 usage_warning_accepted = File.exists? USAGE_WARNING_ACCEPTED
-diable_update_avaiable = false
+disable_update_available = false
 
 def print_stamp
   puts "Author: #{Icr::AUTHOR}"
@@ -37,12 +37,12 @@ def print_usage_warning
   WARN
 end
 
-def check_update_avaiable
+def check_update_available
   if !File.exists?(LATEST_VERSION_FILE)
     Dir.mkdir_p CONFIG_HOME
     raw = YAML.dump({
-      "latest_version" => Icr::VERSION,
-      "next_check_time" => Time.now + 1.day
+      "latest_version"  => Icr::VERSION,
+      "next_check_time" => Time.now + 1.day,
     })
 
     File.open(LATEST_VERSION_FILE, "w") do |f|
@@ -60,13 +60,13 @@ def check_update_avaiable
 
   response = HTTP::Client.get "https://api.github.com/repos/crystal-community/icr/releases/latest"
   if response.success?
-    # Remain avaiable rate limit (60 requests per hour is enough)
+    # Remain available rate limit (60 requests per hour is enough)
     latest_version = JSON.parse(response.body)["tag_name"].to_s.gsub("v", "")
     if SemanticVersion.parse(latest_version) <=> SemanticVersion.parse(Icr::VERSION) > 0
       puts <<-WARN
       ######################################################################################
-      # icr #{latest_version} is avaiable. You are on #{Icr::VERSION}.
-      # You can disable update avaiable check with --disable-update-avaiable flag.
+      # icr #{latest_version} is available. You are on #{Icr::VERSION}.
+      # You can disable update available check with --disable-update-available flag.
       # Please check it: https://github.com/crystal-community/icr/blob/master/CHANGELOG.md
       ######################################################################################
       WARN
@@ -75,7 +75,7 @@ def check_update_avaiable
         data = config.as_h
         data["latest_version"] = latest_version
         data["next_check_time"] = Time.now + 1.day
-        f <<  YAML.dump(data)
+        f << YAML.dump(data)
       end
     end
   end
@@ -116,8 +116,8 @@ OptionParser.parse! do |parser|
     exit 0
   end
 
-  parser.on("--disable-update-avaiable", "Disable update avaiable check") do
-    diable_update_avaiable = true
+  parser.on("--disable-update-available", "Disable update available check") do
+    disable_update_available = true
   end
 
   parser.on("--no-color", "Disable colorized output (also highlight)") do
@@ -126,7 +126,7 @@ OptionParser.parse! do |parser|
 end
 
 print_usage_warning unless usage_warning_accepted
-check_update_avaiable unless diable_update_avaiable
+check_update_available unless disable_update_available
 
 code = libs.join(";")
 Icr::Console.new(is_debug).start(code)

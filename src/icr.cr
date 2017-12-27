@@ -17,7 +17,7 @@ require "./icr/console"
 module Icr
   VERSION  = "0.4.0"
   AUTHOR   = "Potapov Sergey"
-  HOMEPAGE = "https://github.com/greyblake/crystal-icr"
+  HOMEPAGE = "https://github.com/crystal-community/icr"
 
   # Unique value that separates program regular STDOUT from value returned by
   # the last command.

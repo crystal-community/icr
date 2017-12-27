@@ -8,7 +8,7 @@ module Icr
       # Temporary file where generated source code is written
       # NOTE: File is created in the current dir, in order to be able to
       # require local files.
-      @tmp_file_name = ".icr_#{SecureRandom.urlsafe_base64}.cr"
+      @tmp_file_name = ".icr_#{Random::Secure.urlsafe_base64}.cr"
       @tmp_file_path = File.join(Dir.current, @tmp_file_name)
 
       # Accumulates the output from previous executions, so we can distinguish the
@@ -21,7 +21,7 @@ module Icr
       io_out = IO::Memory.new
       io_error = IO::Memory.new
       command = "#{CRYSTAL_COMMAND} #{@tmp_file_path} --no-debug"
-      status = Process.run(command, nil, nil, false, true, nil, io_out, io_error)
+      status = Process.run(command, shell: true, output: io_out, error: io_error)
       print_source_file if @debug
 
       File.delete(@tmp_file_path)

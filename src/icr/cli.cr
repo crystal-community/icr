@@ -8,12 +8,13 @@ require "../icr"
 XDG_CONFIG_HOME        = ENV.fetch("XDG_CONFIG_HOME", "~/.config")
 CONFIG_HOME            = File.expand_path "#{XDG_CONFIG_HOME}/icr"
 USAGE_WARNING_ACCEPTED = "#{CONFIG_HOME}/usage_warning_accepted"
-LATEST_VERSION_FILE    = "#{CONFIG_HOME}/version.yml"
+UPDATE_CHECK_DISABLED  = "#{CONFIG_HOME}/update_check_disabled"
+UPDATE_CHECK_FILE      = "#{CONFIG_HOME}/update_check.yml"
 
 is_debug = false
 libs = [] of String
 usage_warning_accepted = File.exists? USAGE_WARNING_ACCEPTED
-disable_update_available = false
+update_check_disabled = File.exists? UPDATE_CHECK_DISABLED
 
 def print_stamp
   puts "Author: #{Icr::AUTHOR}"
@@ -37,50 +38,31 @@ def print_usage_warning
   WARN
 end
 
-def check_update_available
-  if !File.exists?(LATEST_VERSION_FILE)
-    Dir.mkdir_p CONFIG_HOME
-    raw = YAML.dump({
-      "latest_version"  => Icr::VERSION,
-      "next_check_time" => Time.now + 1.day,
-    })
+def check_for_update
+  config = YAML.parse File.read(UPDATE_CHECK_FILE) if File.exists?(UPDATE_CHECK_FILE)
+  latest_version = config.try &.["latest_version"]?.try &.as_s || Icr::VERSION
+  check_next_time = config.try &.["next_check_time"]?.try &.as_time || Time.now
 
-    File.open(LATEST_VERSION_FILE, "w") do |f|
-      f << raw
-    end
-
-    config = YAML.parse(raw)
-    first_time = true
-  else
-    config = YAML.parse(File.open(LATEST_VERSION_FILE, "r"))
-    first_time = false
+  if Time.now >= check_next_time
+    response = HTTP::Client.get "https://api.github.com/repos/crystal-community/icr/releases/latest"
+    latest_version = JSON.parse(response.body)["tag_name"].to_s.gsub("v", "") if response.success?
   end
 
-  return if !first_time && Time.now < config["check_next_time"].as_time
-
-  response = HTTP::Client.get "https://api.github.com/repos/crystal-community/icr/releases/latest"
-  if response.success?
-    # Remain available rate limit (60 requests per hour is enough)
-    latest_version = JSON.parse(response.body)["tag_name"].to_s.gsub("v", "")
-    if SemanticVersion.parse(latest_version) <=> SemanticVersion.parse(Icr::VERSION) > 0
-      puts <<-WARN
-      ######################################################################################
-      # icr #{latest_version} is available. You are on #{Icr::VERSION}.
-      # You can disable update available check with --disable-update-available flag.
-      # Please check it: https://github.com/crystal-community/icr/blob/master/CHANGELOG.md
-      ######################################################################################
-      WARN
-
-      File.open(LATEST_VERSION_FILE, "w") do |f|
-        data = config.as_h
-        data["latest_version"] = latest_version
-        data["next_check_time"] = Time.now + 1.day
-        f << YAML.dump(data)
-      end
-    end
+  if SemanticVersion.parse(latest_version) <=> SemanticVersion.parse(Icr::VERSION) > 0
+    puts <<-WARN
+    ######################################################################################
+    # icr #{latest_version} is available. You are on #{Icr::VERSION}.
+    # You can disable update check with --disable-update-check flag.
+    # Please check it: https://github.com/crystal-community/icr/blob/master/CHANGELOG.md
+    ######################################################################################
+    WARN
   end
+
+  Dir.mkdir_p CONFIG_HOME
+  yaml = YAML.dump({latest_version: latest_version, next_check_time: Time.now + 1.day})
+  File.write(UPDATE_CHECK_FILE, yaml)
 rescue
-  # do nothing
+  nil
 end
 
 OptionParser.parse! do |parser|
@@ -116,8 +98,13 @@ OptionParser.parse! do |parser|
     exit 0
   end
 
-  parser.on("--disable-update-available", "Disable update available check") do
-    disable_update_available = true
+  parser.on("--disable-update-check", "Disable update check") do
+    Dir.mkdir_p CONFIG_HOME
+    File.touch UPDATE_CHECK_DISABLED
+    update_check_disabled = true
+
+    puts "Update check disabled. Run ICR again to continue."
+    exit 0
   end
 
   parser.on("--no-color", "Disable colorized output (also highlight)") do
@@ -126,7 +113,7 @@ OptionParser.parse! do |parser|
 end
 
 print_usage_warning unless usage_warning_accepted
-check_update_available unless disable_update_available
+check_for_update unless update_check_disabled
 
 code = libs.join(";")
 Icr::Console.new(is_debug).start(code)

@@ -1,4 +1,18 @@
 module Icr
+  lib LibC
+    struct Winsize
+      ws_row : UInt16    #  rows, in characters
+      ws_col : UInt16    #  columns, in characters
+      ws_xpixel : UInt16 #  horizontal size, pixels
+      ws_ypixel : UInt16 #  vertical size, pixels
+    end
+
+    IOC_OUT      = 0x40000000
+    IOCPARM_MASK =     0x1fff
+    TIOCGWINSZ   = IOC_OUT | ((sizeof(Winsize) & IOCPARM_MASK) << 16) | (('t'.ord) << 8) | 104
+    fun ioctl(fd : Int32, cmd : UInt64, winsize : Winsize*) : Int32
+  end
+
   # Responsible for interaction with user.
   class Console
     @crystal_version : String?
@@ -21,6 +35,11 @@ module Icr
       end
     end
 
+		private def clear_screen()
+			LibC.ioctl(0, LibC::TIOCGWINSZ, out screen_size)
+			puts "\n" * (screen_size.ws_row)
+		end
+
     private def process_input(input)
       if input.nil?
         # Ctrl+D was pressed, print new line before exit
@@ -30,6 +49,8 @@ module Icr
         __exit__
       elsif input.to_s.strip == "paste"
         paste_mode()
+      elsif input.to_s.strip == "clear"
+				clear_screen()
       elsif input.to_s.strip == "reset"
         @command_stack.clear
         puts "Crystal environment reset."

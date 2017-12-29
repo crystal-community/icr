@@ -1,4 +1,5 @@
 module Icr
+  #Used for getting the current terminal height
   lib LibC
     struct Winsize
       ws_row : UInt16    #  rows, in characters

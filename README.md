@@ -8,6 +8,7 @@ Interactive console for [Crystal Programming Language](http://crystal-lang.org/)
   * [Arch Linux](#arch-linux)
 * [How does it work?](#how-does-it-work)
 * [Commands and special locals](#commands-and-special-locals)
+* [Update check](#update-check)
 * [Development](#development)
 * [Contributors](#contributors)
 
@@ -31,7 +32,7 @@ $ icr -r colorize -r ./src/my_cool_lib
 
 ## Installation
 Prerequisites:
-* The latest version of crystal (0.20.0).
+* The latest version of crystal.
 * Readline (for Debian/Ubuntu install `libreadline6-dev` package).
 * LLVM development files.
 
@@ -82,9 +83,9 @@ Arch Linux users can install ICR [from AUR](https://aur.archlinux.org/packages/c
 ## Commands and special locals
 
 * `paste` - enables paste mode
-* `debug` - toggles debug mode off and on. In debug mode icr will print the code before executing it.
+* `debug` - toggles debug mode off and on. In debug mode icr will print the code before executing it
 * `quit` or `exit` - exits current interactive console
-* `reset` - clear out all of the accumulated commands. 
+* `reset` - clears out all of the accumulated commands
 * `__` - holds the result of the last expression. Example:
 
 ```crystal
@@ -94,6 +95,12 @@ icr > __.to_i - 10
 => 42
 
 ```
+
+## Update check
+
+ICR periodically checks for the new releases on Github. If your current version is out of date, it will simply show you a notice at start.
+
+You can disable this behavior using `--disable-update-check` CLI flag.
 
 ## Development
 

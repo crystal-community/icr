@@ -36,10 +36,10 @@ module Icr
       end
     end
 
-		private def clear_screen()
-			LibC.ioctl(0, LibC::TIOCGWINSZ, out screen_size)
-			puts "\n" * (screen_size.ws_row)
-		end
+    private def clear_screen()
+	LibC.ioctl(0, LibC::TIOCGWINSZ, out screen_size)
+	puts "\n" * (screen_size.ws_row)
+    end
 
     private def process_input(input)
       if input.nil?
@@ -51,7 +51,7 @@ module Icr
       elsif input.to_s.strip == "paste"
         paste_mode()
       elsif input.to_s.strip == "clear"
-				clear_screen()
+	clear_screen()
       elsif input.to_s.strip == "reset"
         @command_stack.clear
         puts "Crystal environment reset."

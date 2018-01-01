@@ -1,3 +1,9 @@
+#### v0.5.0 2018-01-01
+* New `debug` command to toggle debug output interactively (#74, thanks to @russolsen)
+* New `reset` command to clear commands (#75, thanks to @russolsen)
+* Crystal 0.24.1 support (#72, thanks to @veelenga)
+* Corrected `Icr::HOMEPAGE` (#81, thanks to @Sija)
+
 #### v0.4.0 2017-11-14
 * Add syntax highlight (MakeNowJust) #70
 * README grammar fixes (Sevensidedmarble) #73

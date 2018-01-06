@@ -102,6 +102,10 @@ To run tests:
 make test
 ```
 
+## Editor integration
+
+ - [inf-crystal.el](https://github.com/brantou/inf-crystal.el) provides a REPL buffer connected to a ICR subprocess
+
 ## Contributors
 
 - [greyblake](https://github.com/greyblake) Potapov Sergey - creator, maintainer

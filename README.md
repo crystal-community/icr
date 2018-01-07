@@ -104,7 +104,7 @@ make test
 
 ## Editor integration
 
- - [inf-crystal.el](https://github.com/brantou/inf-crystal.el) provides a REPL buffer connected to a ICR subprocess
+ - [inf-crystal.el](https://github.com/brantou/inf-crystal.el)(for Emacs) - provides a REPL buffer connected to a ICR subprocess
 
 ## Contributors
 

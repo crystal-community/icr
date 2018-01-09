@@ -9,6 +9,7 @@ Interactive console for [Crystal Programming Language](http://crystal-lang.org/)
 * [How does it work?](#how-does-it-work)
 * [Commands and special locals](#commands-and-special-locals)
 * [Development](#development)
+* [Editor Integration](#editor-integration)
 * [Contributors](#contributors)
 
 ## Usage
@@ -104,7 +105,7 @@ make test
 
 ## Editor integration
 
- - [inf-crystal.el](https://github.com/brantou/inf-crystal.el)(for Emacs) - provides a REPL buffer connected to a ICR subprocess
+ - [inf-crystal.el](https://github.com/brantou/inf-crystal.el) - Connects REPL buffer to the ICR subprocess in Emacs
 
 ## Contributors
 

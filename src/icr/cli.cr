@@ -1,13 +1,20 @@
 require "option_parser"
+require "http/client"
+require "semantic_version"
+require "json"
+require "yaml"
 require "../icr"
 
 XDG_CONFIG_HOME        = ENV.fetch("XDG_CONFIG_HOME", "~/.config")
 CONFIG_HOME            = File.expand_path "#{XDG_CONFIG_HOME}/icr"
 USAGE_WARNING_ACCEPTED = "#{CONFIG_HOME}/usage_warning_accepted"
+UPDATE_CHECK_DISABLED  = "#{CONFIG_HOME}/update_check_disabled"
+UPDATE_CHECK_FILE      = "#{CONFIG_HOME}/update_check.yml"
 
 is_debug = false
 libs = [] of String
 usage_warning_accepted = File.exists? USAGE_WARNING_ACCEPTED
+update_check_disabled = File.exists? UPDATE_CHECK_DISABLED
 
 def print_stamp
   puts "Author: #{Icr::AUTHOR}"
@@ -29,6 +36,33 @@ def print_usage_warning
 
   You can disable this warning with --disable-usage-warning flag.
   WARN
+end
+
+def check_for_update
+  config = YAML.parse File.read(UPDATE_CHECK_FILE) if File.exists?(UPDATE_CHECK_FILE)
+  latest_version = config.try &.["latest_version"]?.try &.as_s || Icr::VERSION
+  check_next_time = config.try &.["next_check_time"]?.try &.as_time || Time.now
+
+  if Time.now >= check_next_time
+    response = HTTP::Client.get "https://api.github.com/repos/crystal-community/icr/releases/latest"
+    latest_version = JSON.parse(response.body)["tag_name"].to_s.gsub("v", "") if response.success?
+  end
+
+  if SemanticVersion.parse(latest_version) <=> SemanticVersion.parse(Icr::VERSION) > 0
+    puts <<-WARN
+    ######################################################################################
+    # icr #{latest_version} is available. You are on #{Icr::VERSION}.
+    # You can disable update check with --disable-update-check flag.
+    # Please check it: https://github.com/crystal-community/icr/blob/master/CHANGELOG.md
+    ######################################################################################
+    WARN
+  end
+
+  Dir.mkdir_p CONFIG_HOME
+  yaml = YAML.dump({latest_version: latest_version, next_check_time: Time.now + 1.day})
+  File.write(UPDATE_CHECK_FILE, yaml)
+rescue
+  nil
 end
 
 OptionParser.parse! do |parser|
@@ -64,12 +98,22 @@ OptionParser.parse! do |parser|
     exit 0
   end
 
+  parser.on("--disable-update-check", "Disable update check") do
+    Dir.mkdir_p CONFIG_HOME
+    File.touch UPDATE_CHECK_DISABLED
+    update_check_disabled = true
+
+    puts "Update check disabled. Run ICR again to continue."
+    exit 0
+  end
+
   parser.on("--no-color", "Disable colorized output (also highlight)") do
     Colorize.enabled = false
   end
 end
 
 print_usage_warning unless usage_warning_accepted
+check_for_update unless update_check_disabled
 
 code = libs.join(";")
 Icr::Console.new(is_debug).start(code)

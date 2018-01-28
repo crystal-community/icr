@@ -106,6 +106,18 @@ describe "icr command" do
     icr(input).should match /\=> 169/
   end
 
+  it "allows to define enums" do
+    input = <<-CRYSTAL
+      enum Color
+        Red
+        Green
+        Blue
+      end
+      Color::Blue.value
+    CRYSTAL
+    icr(input).should match /\=> 2/
+  end
+
   it "allows to define records" do
     input = <<-CRYSTAL
       record Person, first_name : String, last_name : String do

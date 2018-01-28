@@ -15,23 +15,26 @@ module Icr
 
     # Add new command.
     def push(command : String)
-      if command.strip =~ /^require\s/
+      case command.strip
+      when .match /^require\s/
         type = :require
-      elsif command.strip =~ /^def\s/
+      when .match /^def\s/
         type = :method
-      elsif command.strip =~ /^class\s/
+      when .match /^class\s/
         type = :class
-      elsif command.strip =~ /^module\s/
+      when .match /^module\s/
         type = :module
-      elsif command.strip =~ /^record\s/
+      when .match /^enum\s/
+        type = :enum
+      when .match /^record\s/
         type = :record
-      elsif command.strip =~ /^struct\s/
+      when .match /^struct\s/
         type = :struct
-      elsif command.strip =~ /^alias\s/
+      when .match /^alias\s/
         type = :alias
-      elsif command.strip =~ /^[A-Z]([A-Za-z0-9_]+)?\s*=[^=~]/
+      when .match /^[A-Z]([A-Za-z0-9_]+)?\s*=[^=~]/
         type = :constant_assignment
-      elsif command.strip =~ /^macro\s/
+      when .match /^macro\s/
         type = :macro
       else
         type = :regular
@@ -50,6 +53,7 @@ module Icr
         <<-CRYSTAL
         #{code(:require)}
         #{code(:module)}
+        #{code(:enum)}
         #{code(:class)}
         #{code(:method)}
         #{code(:record)}

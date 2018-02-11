@@ -94,7 +94,11 @@ module Icr
     end
 
     private def with_persistent_side_effect
-      /^Dir\.rmdir|^Dir\.mkdir_p|^Dir\.mkdir/
+      # Dir.mkdir(), Dir.mkdir_p(), Dir.rmdir(),
+      # File.delete(), File.link(), File.rename(), File.symlink(),
+      # FileUtils.mkdir(), FileUtils.mkdir_p(), FileUtils.mv(),
+      # FileUtils.rm, FileUtils.rm_r(), FileUtils.rm_rf(), FileUtils.rmdir()
+      /^Dir\.(mkdir|rmdir)|^FileUtils\.(mkdir|mv|rm)|^File\.(delete|link|rename|symlink)/
     end
   end
 end

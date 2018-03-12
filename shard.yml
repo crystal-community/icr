@@ -6,6 +6,6 @@ authors:
 
 targets:
   icr:
-    main: src/icr.cr
+    main: src/icr/cli.cr
 
 license: MIT

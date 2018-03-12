@@ -1,11 +1,12 @@
 CRYSTAL_BIN ?= $(shell which crystal)
+SHARDS_BIN ?= $(shell which shards)
 ICR_BIN ?= $(shell which icr)
 PREFIX ?= /usr/local
 
 build:
-	$(CRYSTAL_BIN) build --release --no-debug -o bin/icr src/icr/cli.cr $(CRFLAGS)
+	$(SHARDS_BIN) --production build $(CRFLAGS)
 clean:
-	rm -f ./bin/icr
+	rm -f ./bin/icr ./bin/icr.dwarf
 test: build
 	$(CRYSTAL_BIN) spec
 install: build

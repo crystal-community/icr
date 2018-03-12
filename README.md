@@ -49,11 +49,12 @@ Build:
 ```
 make
 ```
-And create symlink of `./bin/icr` in to direcotory that is listed in your `$PATH`, e.g.:
+
+Install:
+
 ```
-sudo ln -s $(realpath ./bin/icr) /usr/local/bin/icr
+sudo make install
 ```
-_(it's necessary only for the first time)_
 
 ### As a shard dependency
 

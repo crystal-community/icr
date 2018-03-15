@@ -152,7 +152,7 @@ module Icr
     end
 
     private def print_execution_result?
-      @command_stack.commands.last.type == :regular
+      @command_stack.printable_execution_result?
     end
 
     private def __exit__

@@ -12,6 +12,7 @@ UPDATE_CHECK_DISABLED  = "#{CONFIG_HOME}/update_check_disabled"
 UPDATE_CHECK_FILE      = "#{CONFIG_HOME}/update_check.yml"
 
 is_debug = false
+prompt_mode = "default"
 libs = [] of String
 usage_warning_accepted = File.exists? USAGE_WARNING_ACCEPTED
 update_check_disabled = File.exists? UPDATE_CHECK_DISABLED
@@ -89,6 +90,12 @@ OptionParser.parse! do |parser|
     libs.push(%{require "#{filename}"})
   end
 
+  parser.on("-p PROMPT", "--prompt-mode=PROMPT", "Switch prompt mode. \
+            Pre-defined prompt modes are `default`, `simple` and `none`"
+  ) do |mode|
+    prompt_mode = mode.downcase
+  end
+
   parser.on("--disable-usage-warning", "Disable usage warning") do
     Dir.mkdir_p CONFIG_HOME
     File.touch USAGE_WARNING_ACCEPTED
@@ -116,4 +123,4 @@ print_usage_warning unless usage_warning_accepted
 check_for_update unless update_check_disabled
 
 code = libs.join(";")
-Icr::Console.new(is_debug).start(code)
+Icr::Console.new(debug: is_debug, prompt_mode: prompt_mode).start(code)

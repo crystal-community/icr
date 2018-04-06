@@ -3,7 +3,7 @@ module Icr
   class Console
     @crystal_version : String?
 
-    def initialize(debug = false)
+    def initialize(debug = false, @prompt_mode = "default")
       @command_stack = CommandStack.new
       @executer = Executer.new(@command_stack, debug)
       @crystal_version = get_crystal_version!
@@ -83,7 +83,7 @@ module Icr
           # Move the cursor at the first line of command
           command.lines.size.times { STDOUT << "\e[A\e[K" }
 
-          STDOUT << Highlighter.new(default_invitation).highlight(command)
+          STDOUT << Highlighter.new(prompt).highlight(command)
         end
 
         execute
@@ -132,7 +132,7 @@ module Icr
     end
 
     private def ask_for_input(level = 0)
-      invitation = default_invitation + "  " * level
+      invitation = prompt + "  " * level
       Readline.readline(invitation, true)
     end
 
@@ -147,8 +147,17 @@ module Icr
       match && match[0]?
     end
 
-    private def default_invitation
-      "icr(#{@crystal_version}) > "
+    private def prompt
+      case @prompt_mode
+      when "default"
+        "icr(#{@crystal_version}) > "
+      when "simple"
+        "> "
+      when "none"
+        ""
+      else
+        raise ArgumentError.new "wrong prompt mode"
+      end
     end
 
     private def print_execution_result?

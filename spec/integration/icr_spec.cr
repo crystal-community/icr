@@ -14,6 +14,26 @@ describe "icr command" do
       icr("", "-h").should contain("Usage: icr [options]")
     end
 
+    describe "--prompt-mode option" do
+      it "allows to change to simple prompt mode" do
+        icr("1", "--prompt-mode", "simple", "--no-color").should match /> 1/
+      end
+
+      it "allows to change to none prompt mode" do
+        icr("1", "--prompt-mode", "none", "--no-color").should match /1/
+      end
+
+      it "allows to change to default prompt mode" do
+        icr("1", "--prompt-mode", "default", "--no-color").should match /> 1/
+      end
+
+      it "raises argument error if prompt mode is wrong" do
+        expect_raises(ArgumentError) do
+          Icr::Console.new(prompt_mode: "no-such-mode").start
+        end
+      end
+    end
+
     describe "using the -r option" do
       it "requires the colorize lib" do
         input = <<-CODE

@@ -4,4 +4,8 @@ version: 0.5.0
 authors:
   - Potapov Sergey <blake131313@gmail.com>
 
+targets:
+  icr:
+    main: src/icr/cli.cr
+
 license: MIT

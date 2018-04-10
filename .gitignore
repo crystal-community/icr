@@ -6,4 +6,6 @@
 /bin/icr
 src/bin
 
+/bin/*.dwarf
+
 .icr.*.cr

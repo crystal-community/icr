@@ -1,5 +1,4 @@
 require "readline"
-require "tempfile"
 require "io/memory"
 require "random/secure"
 require "colorize"

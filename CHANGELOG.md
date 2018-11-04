@@ -1,3 +1,6 @@
+#### v0.6.0 2018-11-04
+* Crystal 0.27 compatibility (#102 thanks to @blazerw)
+
 #### v0.5.0 2018-01-01
 * New `debug` command to toggle debug output interactively (#74, thanks to @russolsen)
 * New `reset` command to clear commands (#75, thanks to @russolsen)

@@ -1,7 +1,7 @@
 name: icr
 version: 0.6.0
 
-crystal: 0.27.0
+crystal: 0.29.0
 
 authors:
   - Potapov Sergey <blake131313@gmail.com>

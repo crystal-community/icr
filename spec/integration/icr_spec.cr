@@ -37,18 +37,15 @@ describe "icr command" do
 
     describe "custom directory" do
       it "allows to run within a directory with spaces" do
-        folder = "./foo\ bar"
-        FileUtils.mkdir_p folder
-        FileUtils.cd folder
-        input = <<-CODE
-          a = "baz"
-          __
-        CODE
-        output = icr(input)
-        output.should match /baz/
-        output.should_not match /IndexError/
-      ensure
-        FileUtils.rm_r folder if folder && Dir.exists?(folder)
+        within_temp_folder("./foo\ bar") do
+          input = <<-CODE
+            a = "baz"
+            __
+          CODE
+          output = icr(input)
+          output.should match /baz/
+          output.should_not match /IndexError/
+        end
       end
     end
 

@@ -1,4 +1,5 @@
 require "../spec_helper"
+require "file_utils"
 
 describe "icr command" do
   context "passing flag arguments" do
@@ -30,6 +31,20 @@ describe "icr command" do
       it "raises argument error if prompt mode is wrong" do
         expect_raises(ArgumentError) do
           Icr::Console.new(prompt_mode: "no-such-mode").start
+        end
+      end
+    end
+
+    describe "custom directory" do
+      it "allows to run within a directory with spaces" do
+        within_temp_folder("./foo\ bar") do
+          input = <<-CODE
+            a = "baz"
+            __
+          CODE
+          output = icr(input)
+          output.should match /baz/
+          output.should_not match /IndexError/
         end
       end
     end

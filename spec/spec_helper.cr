@@ -18,3 +18,11 @@ def icr(input : String, *args)
   Process.run(cmd.join(" "), nil, nil, false, true, io_in, io_out, io_error)
   io_out.to_s.strip
 end
+
+def within_temp_folder(path : String)
+  FileUtils.mkdir_p path
+  FileUtils.cd path
+  yield
+ensure
+  FileUtils.rm_r path if Dir.exists?(path)
+end

@@ -1,6 +1,6 @@
 language: crystal
 sudo: required
-dist: trusty
+# dist: trusty
 install:
   - sudo apt-get install -qy llvm-3.5-dev libreadline-dev build-essential zlib1g-dev libedit-dev libssl-dev
 script:

@@ -1,4 +1,5 @@
 require "../spec_helper"
+require "file_utils"
 
 describe "icr command" do
   context "passing flag arguments" do
@@ -31,6 +32,23 @@ describe "icr command" do
         expect_raises(ArgumentError) do
           Icr::Console.new(prompt_mode: "no-such-mode").start
         end
+      end
+    end
+
+    describe "custom directory" do
+      it "allows to run within a directory with spaces" do
+        folder = "./foo\ bar"
+        FileUtils.mkdir_p folder
+        FileUtils.cd folder
+        input = <<-CODE
+          a = "baz"
+          __
+        CODE
+        output = icr(input)
+        output.should match /baz/
+        output.should_not match /IndexError/
+      ensure
+        FileUtils.rm_r folder if folder && Dir.exists?(folder)
       end
     end
 

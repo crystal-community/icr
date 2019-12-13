@@ -1,0 +1,6 @@
+version: 1.0
+shards:
+  readline:
+    github: crystal-lang/crystal-readline
+    commit: 0fb7d186da8e1b157998d98d1c96e99699b791eb
+

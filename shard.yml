@@ -1,7 +1,12 @@
 name: icr
 version: 0.6.0
 
-crystal: 0.29.0
+crystal: 0.32.0
+
+dependencies:
+  readline:
+    github: crystal-lang/crystal-readline
+    branch: master
 
 authors:
   - Potapov Sergey <blake131313@gmail.com>

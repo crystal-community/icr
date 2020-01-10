@@ -412,4 +412,21 @@ describe "icr command" do
       icr("1 + 2").should contain("\e[0;34m1\e[0;m \e[0;37m+\e[0;m \e[0;34m2\e[0;m")
     end
   end
+
+  describe "configuration directory" do
+    it "creates update_check.yml" do
+      path = Path[Dir.tempdir].join("xdg_spec").to_s
+      icr("", {"XDG_CONFIG_HOME" => path})
+      File.exists?(Path[path].join("icr/update_check.yml").to_s).should be_true
+      FileUtils.rm_r path if Dir.exists?(path)
+    end
+
+    it "expands tilde to $HOME" do
+      path = "~/.tmp/xdg_spec"
+      abs_path = path.gsub("~", Path.home.to_s)
+      icr("", {"XDG_CONFIG_HOME" => path})
+      Dir.exists?(abs_path).should be_true
+      FileUtils.rm_r abs_path if Dir.exists?(abs_path)
+    end
+  end
 end

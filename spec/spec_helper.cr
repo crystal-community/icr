@@ -19,10 +19,12 @@ def icr(input : String, *args : String, env = nil)
   io_out.to_s.strip
 end
 
-def within_temp_folder(path : String)
+def within_temp_folder(path : String = File.tempname)
+  pwd = FileUtils.pwd
   FileUtils.mkdir_p path
   FileUtils.cd path
   yield
 ensure
+  FileUtils.cd pwd unless pwd.nil?
   FileUtils.rm_r path if Dir.exists?(path)
 end

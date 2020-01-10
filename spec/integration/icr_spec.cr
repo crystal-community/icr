@@ -37,7 +37,7 @@ describe "icr command" do
 
     describe "custom directory" do
       it "allows to run within a directory with spaces" do
-        within_temp_folder("./foo\ bar") do
+        within_temp_folder do
           input = <<-CODE
             a = "baz"
             __

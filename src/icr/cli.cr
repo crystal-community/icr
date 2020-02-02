@@ -6,7 +6,7 @@ require "yaml"
 require "../icr"
 
 XDG_CONFIG_HOME        = ENV.fetch("XDG_CONFIG_HOME", "~/.config")
-CONFIG_HOME            = File.expand_path "#{XDG_CONFIG_HOME}/icr"
+CONFIG_HOME            = File.expand_path "#{XDG_CONFIG_HOME}/icr", home: true
 USAGE_WARNING_ACCEPTED = "#{CONFIG_HOME}/usage_warning_accepted"
 UPDATE_CHECK_DISABLED  = "#{CONFIG_HOME}/update_check_disabled"
 UPDATE_CHECK_FILE      = "#{CONFIG_HOME}/update_check.yml"

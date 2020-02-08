@@ -4,7 +4,7 @@ ICR_BIN ?= $(shell which icr)
 PREFIX ?= /usr/local
 
 build:
-	$(SHARDS_BIN) build --release $(CRFLAGS)
+	$(SHARDS_BIN) build $(CRFLAGS)
 clean:
 	rm -f ./bin/icr ./bin/icr.dwarf
 test: build

@@ -1,3 +1,10 @@
+#### v0.7.0 2020-02-08
+
+* Update crystal compatibility version #108 (thanks to @wontruefree)
+* Crashes when path contains spaces #113
+* Include readline as shard since it's no longer in the std-lib #115
+* Expand tilde in config path #116 (thanks to @jgillich)
+
 #### v0.6.0 2018-11-04
 * Crystal 0.27 compatibility (#102 thanks to @blazerw)
 

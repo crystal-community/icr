@@ -82,6 +82,10 @@ describe "icr command" do
     icr("2 + 2").should match /\=> 4/
   end
 
+  it "does boolean negation" do
+    icr("false.!").should match /true/
+  end
+
   it "allows to define variables" do
     input = <<-CRYSTAL
       a = 10

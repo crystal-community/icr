@@ -42,9 +42,9 @@ end
 def check_for_update
   config = YAML.parse File.read(UPDATE_CHECK_FILE) if File.exists?(UPDATE_CHECK_FILE)
   latest_version = config.try &.["latest_version"]?.try &.as_s || Icr::VERSION
-  check_next_time = config.try &.["next_check_time"]?.try &.as_time || Time.now
+  check_next_time = config.try &.["next_check_time"]?.try &.as_time || Time.local
 
-  if Time.now >= check_next_time
+  if Time.local >= check_next_time
     response = HTTP::Client.get "https://api.github.com/repos/crystal-community/icr/releases/latest"
     latest_version = JSON.parse(response.body)["tag_name"].to_s.gsub("v", "") if response.success?
   end
@@ -60,7 +60,7 @@ def check_for_update
   end
 
   Dir.mkdir_p CONFIG_HOME
-  yaml = YAML.dump({latest_version: latest_version, next_check_time: Time.now + 1.day})
+  yaml = YAML.dump({latest_version: latest_version, next_check_time: Time.local + 1.day})
   File.write(UPDATE_CHECK_FILE, yaml)
 rescue
   nil

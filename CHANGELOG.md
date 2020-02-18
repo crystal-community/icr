@@ -1,3 +1,6 @@
+#### v0.8.0 2020-02-18
+* Crystal 0.33.0 compatibility #118 (thanks to @tenebrousedge)
+
 #### v0.7.0 2020-02-08
 
 * Update crystal compatibility version #108 (thanks to @wontruefree)

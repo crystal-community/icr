@@ -17,15 +17,15 @@ describe "icr command" do
 
     describe "--prompt-mode option" do
       it "allows to change to simple prompt mode" do
-        icr("1", "--prompt-mode", "simple", "--no-color").should match /> 1/
+        icr("1", "--prompt-mode", "simple", "--no-color", color: true).should match /> 1/
       end
 
       it "allows to change to none prompt mode" do
-        icr("1", "--prompt-mode", "none", "--no-color").should match /1/
+        icr("1", "--prompt-mode", "none", "--no-color", color: true).should match /1/
       end
 
       it "allows to change to default prompt mode" do
-        icr("1", "--prompt-mode", "default", "--no-color").should match /> 1/
+        icr("1", "--prompt-mode", "default", "--no-color", color: true).should match /> 1/
       end
 
       it "raises argument error if prompt mode is wrong" do
@@ -227,29 +227,20 @@ describe "icr command" do
   end
 
   describe "quiting" do
-    it "allows to quit with 'exit' command" do
+    it "allows to quit with '#exit' command" do
       input = <<-CRYSTAL
-        exit
+        #exit
         1313
       CRYSTAL
       icr(input).should_not match /1313/
     end
 
-    it "allows to quit with 'quit' command" do
+    it "allows to quit with '#quit' command" do
       input = <<-CRYSTAL
-        quit
+        #quit
         1313
       CRYSTAL
       icr(input).should_not match /1313/
-    end
-
-    it "do not exit if 'exit' or 'quit' is part of other code" do
-      input = <<-CRYSTAL
-        puts "I do not want to exit"
-        puts "nor quit"
-      CRYSTAL
-      icr(input).should match /I do not want to exit/
-      icr(input).should match /nor quit/
     end
   end
 
@@ -413,7 +404,7 @@ describe "icr command" do
     end
 
     it "highlights input code" do
-      icr("1 + 2").should contain("\e[0;34m1\e[0;m \e[0;37m+\e[0;m \e[0;34m2\e[0;m")
+      icr("1 + 2", "", color: true).should contain("\e[0;34m1\e[0;m \e[0;37m+\e[0;m \e[0;34m2\e[0;m")
     end
   end
 

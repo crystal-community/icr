@@ -39,6 +39,8 @@ module Icr
           io_out.to_s.split(/#{@tmp_file_name}:\d+: /).last.strip +
             "\n" +
             io_error.to_s.strip
+        # Remove "Showing last frame. Use --error-trace for full trace." message and filename
+        #error_message = error_message.split('\n')[4..].join('\n') 
         ExecutionResult.new(false, nil, nil, error_message.strip)
       end
     end
@@ -63,7 +65,7 @@ module Icr
 
       # Remove empty directories, including ".crystal"
       while empty_dir?(path)
-        Dir.rmdir(path)
+        Dir.delete(path)
         break if path == dot_crystal_dir
         path = File.expand_path("..", path)
       end

@@ -1,12 +1,34 @@
+lib LibReadline
+  fun rl_insert_text(text : UInt8*)
+  fun rl_redisplay()
+  $rl_point : Int32
+end
+
+module Readline
+  def rl_insert_text(text : String)
+    LibReadline.rl_insert_text(text)
+  end
+
+  def rl_redisplay
+    LibReadline.rl_redisplay
+  end
+
+  def rl_point
+    LibReadline.rl_point
+  end
+end
+
 module Icr
   # Responsible for interaction with user.
   class Console
     @crystal_version : String?
+    @level : Int32
 
     def initialize(debug = false, @prompt_mode = "default")
       @command_stack = CommandStack.new
       @executer = Executer.new(@command_stack, debug)
       @crystal_version = get_crystal_version!
+      @level = 0
     end
 
     def start
@@ -15,9 +37,35 @@ module Icr
 
     def start(code : String)
       process_input(code) unless code.empty?
+
+      if Colorize.enabled?
+        (32..256).each do |i|
+          begin
+            Readline.bind_key i.chr do
+              invitation = prompt
+              LibReadline.rl_insert_text "#{i.chr}"
+              LibReadline.rl_redisplay
+              indent = @level * 2
+              line = Readline.line_buffer.as String
+              off = line.size - Readline.rl_point
+              (line.size - off).times { STDOUT << "\e[D" }
+              highlighter = Highlighter.new("")
+              STDOUT << highlighter.highlight(line).strip + "\e[0m"
+              puts
+              STDOUT << "\e[A"
+              (line.size + invitation.size + indent - off).times { STDOUT << "\e[C" }
+              0
+            end
+          rescue
+          end
+        end
+      end
       loop do
         input = ask_for_input
         process_input(input)
+        if Colorize.enabled?
+          STDOUT << "\e[A"
+        end
       end
     end
 
@@ -26,14 +74,14 @@ module Icr
         # Ctrl+D was pressed, print new line before exit
         puts
         __exit__
-      elsif %w(exit quit).includes?(input.to_s.strip)
+      elsif input.to_s.strip == "#exit" || input.to_s.strip == "#quit"
         __exit__
-      elsif input.to_s.strip == "paste"
+      elsif input.to_s.strip == "#paste"
         paste_mode()
-      elsif input.to_s.strip == "reset"
+      elsif input.to_s.strip == "#reset"
         @command_stack.clear
         puts "Crystal environment reset."
-      elsif input.to_s.strip == "debug"
+      elsif input.to_s.strip == "#debug"
         @executer.debug = !@executer.debug
         puts "Debug: #{@executer.debug}"
       elsif input.to_s.strip != ""
@@ -79,13 +127,6 @@ module Icr
       when :ok
         @command_stack.push(command)
 
-        if Colorize.enabled?
-          # Move the cursor at the first line of command
-          command.lines.size.times { STDOUT << "\e[A\e[K" }
-
-          STDOUT << Highlighter.new(prompt).highlight(command)
-        end
-
         execute
       when :unexpected_eof, :unterminated_literal
         # If syntax is invalid because of unexpected EOF, or
@@ -122,7 +163,11 @@ module Icr
       if result.success?
         print result.output
         if print_execution_result?
-          puts " => #{result.value}"
+          if Colorize.enabled?
+            puts " => #{Highlighter.new("").highlight(result.value.as String).strip}"
+          else
+            puts " => #{result.value}"
+          end
         else
           puts " => ok"
         end
@@ -132,6 +177,7 @@ module Icr
     end
 
     private def ask_for_input(level = 0)
+      @level = level
       invitation = prompt + "  " * level
       Readline.readline(invitation, true)
     end

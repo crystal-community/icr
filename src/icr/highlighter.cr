@@ -28,6 +28,8 @@ class Icr::Highlighter
     end
   end
 
+  getter highlight_stack : Array(Highlight)
+
   def initialize(@invitation : String)
     @highlight_stack = [] of Highlight
   end
@@ -125,7 +127,12 @@ class Icr::Highlighter
         if OPERATORS.includes? token.type
           highlight token, :operator, io
         else
-          io << token
+          case token.type
+          when :UNDERSCORE
+            io << "_"
+          else
+            io << token.type
+          end
         end
       end
 

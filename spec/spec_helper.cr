@@ -7,9 +7,10 @@ def icr(input : String, env : Hash(String, String) | Nil = nil)
 end
 
 # Optionally, you can pass flags to the icr command
-def icr(input : String, *args : String, env = nil)
+def icr(input : String, *args : String, env = nil, color = false)
   cmd = ["#{Icr::ROOT_PATH}/bin/icr"]
   cmd.push(*args) unless args.empty?
+  cmd.push("--no-color") unless color
 
   io_in = IO::Memory.new(input)
   io_out = IO::Memory.new

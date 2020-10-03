@@ -10,3 +10,4 @@ src/bin
 /bin/*.dwarf
 
 .icr.*.cr
+.icr_*

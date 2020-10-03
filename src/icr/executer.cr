@@ -63,7 +63,7 @@ module Icr
 
       # Remove empty directories, including ".crystal"
       while empty_dir?(path)
-        Dir.rmdir(path)
+        Dir.delete(path)
         break if path == dot_crystal_dir
         path = File.expand_path("..", path)
       end

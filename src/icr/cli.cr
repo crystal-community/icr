@@ -66,7 +66,7 @@ rescue
   nil
 end
 
-OptionParser.parse! do |parser|
+OptionParser.parse do |parser|
   parser.banner = "Usage: icr [options]"
 
   parser.on("-v", "--version", "Show version") do

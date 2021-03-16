@@ -173,6 +173,7 @@ module Icr
         end
       else
         puts result.error_output
+        puts if Colorize.enabled?
       end
     end
 

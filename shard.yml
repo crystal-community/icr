@@ -7,6 +7,8 @@ dependencies:
   readline:
     github: crystal-lang/crystal-readline
     branch: master
+  crystalizer:
+    github: j8r/crystalizer
 
 authors:
   - Potapov Sergey <blake131313@gmail.com>

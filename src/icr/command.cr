@@ -17,10 +17,10 @@ module Icr
     def parsed_value
       res = value
       if regular?
-        res = "_r = (#{value});
+        res = "_p = (#{value});
                Base64.strict_encode({
-                 result: _r.inspect,
-                 serialized: %Q(#{encoded_var_value("_r")} #{encoded_var_value(calc_var_name)}) }.to_json)"
+                 result: _p.inspect,
+                 serialized: %Q(#{encoded_var_value("_p")} #{encoded_var_value(calc_var_name)}) }.to_json)"
         res = vars_cmd unless vars_cmd.empty?
       end
       res

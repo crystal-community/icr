@@ -182,7 +182,9 @@ module Icr
         end
       else
         puts result.error_output
-        puts
+
+        puts if Colorize.enabled?
+        master
       end
     end
 

@@ -84,6 +84,15 @@ module Icr
       elsif input.to_s.strip == "#debug"
         @executer.debug = !@executer.debug
         puts "Debug: #{@executer.debug}"
+      elsif input.to_s.strip == "#help"
+        puts <<-EOF
+        All commands:
+         #exit, #quit      Exit ICR.
+         #paste            Enter paste mode.
+         #reset            Reset the environment.
+         #debug            Enter debug mode.
+         #help             Print this message.
+        EOF
       elsif input.to_s.strip != ""
         process_command(input.to_s)
       end
@@ -173,6 +182,7 @@ module Icr
         end
       else
         puts result.error_output
+
         puts if Colorize.enabled?
       end
     end

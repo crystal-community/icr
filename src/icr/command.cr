@@ -5,7 +5,7 @@ module Icr
   #   * type - type of input(require, class, module, method, regular, etc)
   class Command
     getter :type, :value
-    property vars_cmd = ""
+    property cached_results = ""
 
     def initialize(@type : Symbol, @value : String)
     end
@@ -15,15 +15,14 @@ module Icr
     end
 
     def parsed_value
-      res = value
-      if regular?
-        res = "_p = (#{value});
-               Base64.strict_encode({
-                 result: _p.inspect,
-                 serialized: %Q(#{encoded_var_value("_p")} #{encoded_var_value(calc_var_name)}) }.to_json)"
-        res = vars_cmd unless vars_cmd.empty?
-      end
-      res
+      return value unless regular?
+
+      run_cmd = "_p = (#{value});
+             Base64.strict_encode({
+               result: _p.inspect,
+               serialized: %Q(#{encoded_var_value("_p")} #{encoded_var_value(calc_var_name)})
+             }.to_json) + #{DELIMITER.inspect}"
+      cached_results.empty? ? run_cmd : cached_results
     end
 
     def encoded_var_value(var_name : String)

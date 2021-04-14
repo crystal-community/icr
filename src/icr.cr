@@ -3,6 +3,8 @@ require "io/memory"
 require "random/secure"
 require "colorize"
 
+require "crystalizer/json"
+
 require "compiler/crystal/syntax"
 
 require "./icr/command"
@@ -12,6 +14,7 @@ require "./icr/execution_result"
 require "./icr/syntax_check_result"
 require "./icr/highlighter"
 require "./icr/console"
+
 
 module Icr
   VERSION  = "0.8.0"

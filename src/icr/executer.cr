@@ -1,4 +1,5 @@
-require "base64";
+require "base64"
+require "json"
 module Icr
   # Build crystal source code file based on commands in CommandStack, executes it
   # as crystal program and returns result as an instance of ExecutionResult.

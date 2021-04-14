@@ -17,10 +17,10 @@ module Icr
     def parsed_value
       return value unless regular?
 
-      run_cmd = "_p = (#{value});
+      run_cmd = "__previous_result = (#{value});
              Base64.strict_encode({
-               result: _p.inspect,
-               serialized: %Q(#{encoded_var_value("_p")} #{encoded_var_value(calc_var_name)})
+               result: __previous_result.inspect,
+               serialized: %Q(#{encoded_var_value("__previous_result")} #{encoded_var_value(calc_var_name)})
              }.to_json) + #{DELIMITER.inspect}"
       cached_results.empty? ? run_cmd : cached_results
     end

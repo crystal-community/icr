@@ -51,7 +51,7 @@ module Icr
       output, enc_cmd_res, cmd_output = io_result.to_s.split(DELIMITER)
       result = decode_regular_result(enc_cmd_res)
       @command_stack.commands.last.cached_results = result["serialized"]
-      res_output = (output.to_s + cmd_output.to_s[1..-1])
+      res_output = (cmd_output.to_s[1..-1] + output.to_s)
       @previous_output = res_output
       ExecutionResult.new(true, result["result"], res_output, nil)
     end

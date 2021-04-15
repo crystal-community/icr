@@ -35,7 +35,9 @@ module Icr
 
     # TODO: calc all variable names from the command
     def calc_var_name
-      value.match(/(\w+) ?= ?(.*)/).try(&.[1]).to_s
+      value.gsub(/\"(.*?)\"/, "")
+           .match(/(\w+) ?= ?(.*)/)
+           .try(&.[1]).to_s
     end
   end
 end

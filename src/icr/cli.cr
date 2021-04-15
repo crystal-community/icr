@@ -122,5 +122,8 @@ end
 print_usage_warning unless usage_warning_accepted
 check_for_update unless update_check_disabled
 
+libs.push(%{require "crystalizer/json"})
+libs.push(%{require "json"})
+libs.push(%{require "base64"})
 code = libs.join(";")
 Icr::Console.new(debug: is_debug, prompt_mode: prompt_mode).start(code)

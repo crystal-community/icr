@@ -72,7 +72,7 @@ module Icr
     end
 
     private def code(command_type, indent_level = 0)
-      cmds = @commands.select { |cmd| cmd.type == command_type }.map &.value
+      cmds = @commands.select { |cmd| cmd.type == command_type }.map &.parsed_value
       cmds.map { |cmd| ("  " * indent_level) + cmd }.join("\n")
     end
   end

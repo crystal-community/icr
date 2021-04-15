@@ -168,6 +168,7 @@ module Icr
           else
             puts " => #{result.value}"
           end
+          puts "\n"
         else
           puts " => ok"
         end

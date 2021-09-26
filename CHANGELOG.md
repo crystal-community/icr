@@ -1,3 +1,10 @@
+#### v0.9.0 2021-09-25
+* Add color highlight while you type (thanks to @sugarfi)
+* Use magic comments `#exit` and `#quit` to leave ICR (thanks to @sugarfi)
+* Support for latest Crystal (thanks to @mamantoha)
+* Add magic comment `#help` command to get available commands. (thanks to @sugarfi)
+* Better version support with Crystal (thanks to @HashNuke)
+
 #### v0.8.0 2020-02-18
 * Crystal 0.33.0 compatibility #118 (thanks to @tenebrousedge)
 

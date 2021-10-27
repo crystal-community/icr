@@ -1,3 +1,5 @@
+require "base64"
+require "json"
 module Icr
   # Build crystal source code file based on commands in CommandStack, executes it
   # as crystal program and returns result as an instance of ExecutionResult.
@@ -26,6 +28,8 @@ module Icr
       File.delete(@tmp_file_path)
 
       if status.success?
+        return parse_regular_result(io_out.to_s) if @command_stack.commands.last.regular?
+
         output, value = io_out.to_s.split(DELIMITER, 2)
         new_output = output.sub(@previous_output, "")
         @previous_output = output
@@ -41,6 +45,21 @@ module Icr
             io_error.to_s.strip
         ExecutionResult.new(false, nil, nil, error_message.strip)
       end
+    end
+
+    def parse_regular_result(io_result : String)
+      output, enc_cmd_res, cmd_output = io_result.to_s.split(DELIMITER)
+      result = decode_regular_result(enc_cmd_res)
+      @command_stack.commands.last.cached_results = result["serialized"]
+      res_output = (cmd_output.to_s[1..-1] + output.to_s)
+      @previous_output = res_output
+      ExecutionResult.new(true, result["result"], res_output, nil)
+    end
+
+    #@return { result: "...", serialized: "..." }
+    def decode_regular_result(enc_cmd_res)
+      str_cmd_res = Base64.decode_string(enc_cmd_res.gsub("\"", ""))
+      Hash(String, String).from_json(str_cmd_res)
     end
 
     def print_source_file

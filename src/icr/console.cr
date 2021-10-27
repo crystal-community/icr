@@ -126,7 +126,7 @@ module Icr
     end
 
     private def process_command(command : String)
-      command = command.to_s.gsub(/\b__\b/) { last_value.to_s.strip }
+      command = command.to_s.gsub(/\b__\b/) { "__previous_result" }
       result = check_syntax(command)
       process_result(result, command)
     end
@@ -177,6 +177,7 @@ module Icr
           else
             puts " => #{result.value}"
           end
+          puts "\n"
         else
           puts " => ok"
         end

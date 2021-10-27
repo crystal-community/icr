@@ -1,5 +1,9 @@
 version: 2.0
 shards:
+  crystalizer:
+    git: https://github.com/j8r/crystalizer.git
+    version: 1.0.0
+
   readline:
     git: https://github.com/crystal-lang/crystal-readline.git
     version: 0.1.0+git.commit.0fb7d186da8e1b157998d98d1c96e99699b791eb
